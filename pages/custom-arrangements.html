@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Arrangements - Vida-Tea Wellness | Handcrafted Tea Gifts</title>
+    <meta name="description" content="Custom tea gift arrangements for weddings, corporate events, and special occasions. Handcrafted by Erika & Mercedes.">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="shop.html" class="nav-link">Shop</a></li>
+                    <li><a href="custom-arrangements.html" class="nav-link active">Custom Arrangements</a></li>
+                    <li><a href="../index.html#wellness" class="nav-link">Wellness</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="btn-auth" id="authBtn">Sign In</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Custom Arrangements Section -->
+    <section class="custom-arrangements-page">
+        <div class="container">
+            <h1 class="page-title">Custom Tea Gift Arrangements</h1>
+            <p class="page-subtitle">Handcrafted by Erika & Mercedes for your special moments</p>
+            
+            <!-- Arrangement Types -->
+            <div class="arrangement-types">
+                <div class="arrangement-type">
+                    <div class="type-icon">💒</div>
+                    <h3>Weddings</h3>
+                    <p>Elegant tea arrangements for wedding favors, bridal showers, and reception gifts</p>
+                    <ul class="type-features">
+                        <li>Personalized tea blends</li>
+                        <li>Glass jar packaging</li>
+                        <li>Custom labels</li>
+                        <li>Bulk pricing available</li>
+                    </ul>
+                    <p class="price-range">Starting at $25 per arrangement</p>
+                </div>
+                
+                <div class="arrangement-type">
+                    <div class="type-icon">🎉</div>
+                    <h3>Bar Mitzvahs</h3>
+                    <p>Traditional and modern tea blends for celebrations and family gatherings</p>
+                    <ul class="type-features">
+                        <li>Cultural tea selections</li>
+                        <li>Family-sized arrangements</li>
+                        <li>Traditional packaging</li>
+                        <li>Custom messaging</li>
+                    </ul>
+                    <p class="price-range">Starting at $20 per arrangement</p>
+                </div>
+                
+                <div class="arrangement-type">
+                    <div class="type-icon">🏢</div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional tea arrangements for business gifts, client appreciation, and office wellness</p>
+                    <ul class="type-features">
+                        <li>Premium tea selections</li>
+                        <li>Professional packaging</li>
+                        <li>Company branding options</li>
+                        <li>Wellness-focused blends</li>
+                    </ul>
+                    <p class="price-range">Starting at $30 per arrangement</p>
+                </div>
+                
+                <div class="arrangement-type">
+                    <div class="type-icon">🎂</div>
+                    <h3>Birthdays</h3>
+                    <p>Personalized tea arrangements for special celebrations and milestone birthdays</p>
+                    <ul class="type-features">
+                        <li>Personalized tea blends</li>
+                        <li>Birthday-themed packaging</li>
+                        <li>Custom gift messages</li>
+                        <li>Age-appropriate selections</li>
+                    </ul>
+                    <p class="price-range">Starting at $15 per arrangement</p>
+                </div>
+            </div>
+            
+            <!-- Custom Builder Tool -->
+            <div class="custom-builder">
+                <h2>Design Your Custom Arrangement</h2>
+                <form class="builder-form" id="customBuilderForm">
+                    <div class="form-section">
+                        <h3>Event Type</h3>
+                        <select id="eventType" required>
+                            <option value="">Select Event Type</option>
+                            <option value="wedding">Wedding</option>
+                            <option value="bar-mitzvah">Bar Mitzvah</option>
+                            <option value="corporate">Corporate Event</option>
+                            <option value="birthday">Birthday</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Tea Selection</h3>
+                        <div class="tea-options">
+                            <label><input type="checkbox" name="teas" value="stress-relief"> Stress Relief Blend</label>
+                            <label><input type="checkbox" name="teas" value="immunity"> Immunity Boost</label>
+                            <label><input type="checkbox" name="teas" value="digestive"> Digestive Health</label>
+                            <label><input type="checkbox" name="teas" value="energy"> Energy & Focus</label>
+                            <label><input type="checkbox" name="teas" value="sleep"> Sleep Support</label>
+                            <label><input type="checkbox" name="teas" value="custom"> Custom Blend</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Container Style</h3>
+                        <div class="container-options">
+                            <label><input type="radio" name="container" value="glass-jar"> Glass Jar</label>
+                            <label><input type="radio" name="container" value="glass-flask"> Glass Flask</label>
+                            <label><input type="radio" name="container" value="decorative-box"> Decorative Box</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Quantity</h3>
+                        <input type="number" id="quantity" min="1" max="100" value="1" required>
+                        <p class="bulk-discount">Bulk discounts available for orders of 10+ arrangements</p>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Special Instructions</h3>
+                        <textarea id="specialInstructions" placeholder="Any special requests, custom messaging, or specific requirements..."></textarea>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3>Contact Information</h3>
+                        <input type="text" id="contactName" placeholder="Your Name" required>
+                        <input type="email" id="contactEmail" placeholder="Your Email" required>
+                        <input type="tel" id="contactPhone" placeholder="Your Phone">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Submit Custom Order</button>
+                </form>
+            </div>
+            
+            <!-- Features Section -->
+            <div class="features-section">
+                <h2>Why Choose Our Custom Arrangements?</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <h4>Handcrafted by Erika & Mercedes</h4>
+                        <p>Each arrangement is personally created by our founders with care and attention to detail.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Premium Glass Containers</h4>
+                        <p>Beautiful glass jars and flasks sourced from quality suppliers for elegant presentation.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Organic Tea Blends</h4>
+                        <p>All teas are organic and carefully selected for taste and wellness benefits.</p>
+                    </div>
+                    <div class="feature">
+                        <h4>Bulk Discounts</h4>
+                        <p>Special pricing for large orders and corporate events.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Vida-Tea</h3>
+                    <p>Tea for Life - Premium wellness teas for everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Starting in Katy, TX</p>
+                    <p>info@vida-tea.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 8AM-8PM</p>
+                    <p>Sat-Sun: 9AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vida-Tea. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html> 

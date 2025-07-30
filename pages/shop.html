@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Vida-Tea Wellness | Premium Organic Teas</title>
+    <meta name="description" content="Browse our premium organic tea collection. Filter by health benefits and wellness goals.">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                    <li><a href="custom-arrangements.html" class="nav-link">Custom Arrangements</a></li>
+                    <li><a href="../index.html#wellness" class="nav-link">Wellness</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="btn-auth" id="authBtn">Sign In</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Shop Section -->
+    <section class="shop-section">
+        <div class="container">
+            <h1 class="page-title">Our Tea Collection</h1>
+            <p class="page-subtitle">Premium organic teas for every wellness need</p>
+            
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <h3>Filter by Health Benefits</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Teas</button>
+                    <button class="filter-btn" data-filter="stress-relief">Stress Relief</button>
+                    <button class="filter-btn" data-filter="immunity">Immunity Boost</button>
+                    <button class="filter-btn" data-filter="digestive">Digestive Health</button>
+                    <button class="filter-btn" data-filter="energy">Energy & Focus</button>
+                    <button class="filter-btn" data-filter="sleep">Sleep Support</button>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            
+            <!-- Product Details Modal -->
+            <div class="modal" id="productModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="productModalTitle">Product Details</h3>
+                        <button class="modal-close" id="closeProduct">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="productModalContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Vida-Tea</h3>
+                    <p>Tea for Life - Premium wellness teas for everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Starting in Katy, TX</p>
+                    <p>info@vida-tea.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 8AM-8PM</p>
+                    <p>Sat-Sun: 9AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vida-Tea. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html> 

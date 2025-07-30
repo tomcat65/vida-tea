@@ -1,0 +1,500 @@
+/* Vida Tea - Responsive Design */
+
+/* Mobile First Approach */
+
+/* Extra Small Devices (phones, 576px and down) */
+@media (max-width: 575.98px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .hero-actions {
+        justify-content: center;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-container {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .tea-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .wellness-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .founders {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: var(--spacing-sm);
+    }
+    
+    .hero {
+        padding: 100px 0 60px;
+    }
+    
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+}
+
+/* Small Devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .tea-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .wellness-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .partners-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .hero-container {
+        gap: var(--spacing-lg);
+    }
+    
+    .tea-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .wellness-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .hero-container {
+        gap: var(--spacing-xl);
+    }
+    
+    .tea-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+/* Extra Large Devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .hero-container {
+        gap: var(--spacing-xxl);
+    }
+    
+    .tea-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+/* Navigation Responsive */
+@media (max-width: 767.98px) {
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+    }
+    
+    .nav-link {
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid rgba(45, 90, 39, 0.1);
+    }
+    
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-actions {
+        gap: var(--spacing-xs);
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+}
+
+/* Modal Responsive */
+@media (max-width: 575.98px) {
+    .modal-content {
+        margin: var(--spacing-sm);
+        max-height: calc(100vh - 2rem);
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: var(--spacing-md);
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    
+    .cart-item-quantity {
+        align-self: flex-end;
+    }
+}
+
+/* Form Responsive */
+@media (max-width: 575.98px) {
+    .form-group input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-footer button {
+        width: 100%;
+    }
+}
+
+/* Cart Responsive */
+@media (max-width: 767.98px) {
+    .cart-item-details {
+        min-width: 0;
+    }
+    
+    .cart-item-title {
+        font-size: 0.9rem;
+    }
+    
+    .cart-item-price {
+        font-size: 0.8rem;
+    }
+}
+
+/* Tea Cards Responsive */
+@media (max-width: 575.98px) {
+    .tea-card {
+        padding: var(--spacing-md);
+    }
+    
+    .tea-image {
+        height: 150px;
+    }
+    
+    .tea-title {
+        font-size: 1.1rem;
+    }
+    
+    .tea-description {
+        font-size: 0.9rem;
+    }
+    
+    .tea-price {
+        font-size: 1.1rem;
+    }
+}
+
+/* Wellness Cards Responsive */
+@media (max-width: 767.98px) {
+    .wellness-card {
+        padding: var(--spacing-md);
+    }
+    
+    .wellness-icon {
+        font-size: 2.5rem;
+    }
+    
+    .wellness-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .wellness-card p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Footer Responsive */
+@media (max-width: 767.98px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+    
+    .footer-section {
+        padding: var(--spacing-md) 0;
+    }
+}
+
+/* Hero Section Responsive */
+@media (max-width: 767.98px) {
+    .hero {
+        min-height: 80vh;
+        padding: 80px 0 60px;
+    }
+    
+    .tea-visual {
+        height: 300px;
+    }
+    
+    .tea-cup {
+        width: 100px;
+        height: 70px;
+    }
+    
+    .tea-cup::before {
+        width: 70px;
+        height: 18px;
+    }
+}
+
+/* Section Spacing Responsive */
+@media (max-width: 767.98px) {
+    section {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-lg);
+    }
+}
+
+/* Button Responsive */
+@media (max-width: 575.98px) {
+    .hero-actions {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Search and Filter Responsive */
+@media (max-width: 767.98px) {
+    .search-container {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .search-input {
+        max-width: 100%;
+    }
+    
+    .filter-buttons {
+        gap: var(--spacing-xs);
+    }
+    
+    .filter-btn {
+        padding: var(--spacing-xs);
+        font-size: 0.8rem;
+    }
+}
+
+/* Toast Responsive */
+@media (max-width: 575.98px) {
+    .toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* Loading States Responsive */
+@media (max-width: 575.98px) {
+    .loading {
+        width: 16px;
+        height: 16px;
+        border-width: 2px;
+    }
+}
+
+/* Price Display Responsive */
+@media (max-width: 575.98px) {
+    .price-amount {
+        font-size: 1.1rem;
+    }
+    
+    .price-currency {
+        font-size: 0.8rem;
+    }
+    
+    .price-unit {
+        font-size: 0.7rem;
+    }
+}
+
+/* Wellness Tags Responsive */
+@media (max-width: 575.98px) {
+    .wellness-tags {
+        gap: var(--spacing-xs);
+    }
+    
+    .wellness-tag {
+        font-size: 0.7rem;
+        padding: var(--spacing-xs);
+    }
+}
+
+/* Tea Categories Responsive */
+@media (max-width: 767.98px) {
+    .tea-category {
+        padding: var(--spacing-md);
+    }
+    
+    .category-icon {
+        font-size: 1.5rem;
+    }
+    
+    .category-title {
+        font-size: 1.1rem;
+    }
+    
+    .category-description {
+        font-size: 0.8rem;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .tea-visual {
+        transform: scale(1.1);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .nav-actions,
+    .modal,
+    .footer {
+        display: none;
+    }
+    
+    .hero {
+        padding: 0;
+        min-height: auto;
+    }
+    
+    .tea-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .steam {
+        animation: none;
+    }
+    
+    .modal-content {
+        animation: none;
+    }
+    
+    .toast {
+        animation: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --cream: #1a1a1a;
+        --warm-beige: #2a2a2a;
+        --deep-green: #e8f5e8;
+        --accent-green: #a8c8a8;
+    }
+    
+    body {
+        background-color: var(--cream);
+        color: var(--deep-green);
+    }
+    
+    .tea-card,
+    .wellness-card,
+    .partner-card,
+    .founder,
+    .modal-content {
+        background: var(--warm-beige);
+        color: var(--deep-green);
+    }
+    
+    .nav-link {
+        color: var(--deep-green);
+    }
+    
+    .form-group input {
+        background: var(--warm-beige);
+        color: var(--deep-green);
+        border-color: rgba(168, 200, 168, 0.3);
+    }
+} 

@@ -1,0 +1,36 @@
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Firebase config (contains sensitive data)
+js/firebase-config.js
+
+# Firebase documentation (contains deployment details)
+FIREBASE_SETUP.md
+
+# Deployment scripts
+deploy.sh
+
+# Debug logs
+pglite-debug.log
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+
+# Build files
+dist/
+build/

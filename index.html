@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vida-Tea Wellness - Tea for Life | Universal Wellness Teas</title>
+    <meta name="description" content="Premium organic wellness teas for everyone. Custom tea gift arrangements, wellness blends, and tea for life. Founded by Erika & Mercedes.">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#teas" class="nav-link">Our Teas</a></li>
+                    <li><a href="#custom-arrangements" class="nav-link">Custom Arrangements</a></li>
+                    <li><a href="#wellness" class="nav-link">Wellness</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="btn-auth" id="authBtn">Sign In</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Tea for Life</h1>
+                <p class="hero-subtitle">Premium organic wellness teas for everyone, everywhere. Custom gift arrangements and wellness blends for all occasions.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" id="exploreBtn">Explore Our Collection</button>
+                    <button class="btn-secondary" id="customArrangementsBtn">Custom Arrangements</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="tea-visual">
+                    <div class="tea-cup"></div>
+                    <div class="steam"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Teas -->
+    <section class="featured-teas" id="teas">
+        <div class="container">
+            <h2 class="section-title">Our Premium Collection</h2>
+            <p class="section-subtitle">Carefully selected organic teas for your wellness journey</p>
+            
+            <div class="tea-grid" id="teaGrid">
+                <!-- Teas will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Arrangements Section -->
+    <section class="custom-arrangements" id="custom-arrangements">
+        <div class="container">
+            <h2 class="section-title">Custom Tea Gift Arrangements</h2>
+            <p class="section-subtitle">Handcrafted by Erika & Mercedes for your special occasions</p>
+            
+            <div class="arrangements-grid">
+                <div class="arrangement-card">
+                    <div class="arrangement-icon">💒</div>
+                    <h3>Weddings</h3>
+                    <p>Elegant tea arrangements for wedding favors and bridal showers</p>
+                    <p class="price">Starting at $25</p>
+                </div>
+                <div class="arrangement-card">
+                    <div class="arrangement-icon">🎉</div>
+                    <h3>Bar Mitzvahs</h3>
+                    <p>Traditional and modern tea blends for celebrations</p>
+                    <p class="price">Starting at $20</p>
+                </div>
+                <div class="arrangement-card">
+                    <div class="arrangement-icon">🏢</div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional tea arrangements for business gifts and events</p>
+                    <p class="price">Starting at $30</p>
+                </div>
+                <div class="arrangement-card">
+                    <div class="arrangement-icon">🎂</div>
+                    <h3>Birthdays</h3>
+                    <p>Personalized tea arrangements for special celebrations</p>
+                    <p class="price">Starting at $15</p>
+                </div>
+            </div>
+            
+            <div class="arrangement-features">
+                <div class="feature">
+                    <h4>Glass Containers</h4>
+                    <p>Beautiful glass jars and flasks from quality suppliers</p>
+                </div>
+                <div class="feature">
+                    <h4>Handcrafted</h4>
+                    <p>Each arrangement personally created by Erika & Mercedes</p>
+                </div>
+                <div class="feature">
+                    <h4>Bulk Discounts</h4>
+                    <p>Special pricing for large orders and events</p>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <button class="btn-primary" id="customOrderBtn">Start Custom Order</button>
+                <p class="cta-text">Contact us for personalized arrangements</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wellness Section -->
+    <section class="wellness" id="wellness">
+        <div class="container">
+            <h2 class="section-title">Wellness Through Tea</h2>
+            <div class="wellness-grid">
+                <div class="wellness-card">
+                    <div class="wellness-icon">🧘‍♀️</div>
+                    <h3>Stress Relief</h3>
+                    <p>Calming blends to reduce stress and promote relaxation</p>
+                </div>
+                <div class="wellness-card">
+                    <div class="wellness-icon">💪</div>
+                    <h3>Immunity Boost</h3>
+                    <p>Natural immune support with antioxidant-rich teas</p>
+                </div>
+                <div class="wellness-card">
+                    <div class="wellness-icon">🌿</div>
+                    <h3>Digestive Health</h3>
+                    <p>Gentle teas to support healthy digestion</p>
+                </div>
+                <div class="wellness-card">
+                    <div class="wellness-icon">⚡</div>
+                    <h3>Energy & Focus</h3>
+                    <p>Natural energy boosters without the crash</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community" id="community">
+        <div class="container">
+            <h2 class="section-title">Katy Community</h2>
+            <p class="section-subtitle">Partnering with local wellness centers for a healthier community</p>
+            
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <h3>Rose Lane Wellness</h3>
+                    <p>Ayurveda, yoga, meditation</p>
+                </div>
+                <div class="partner-card">
+                    <h3>Serasana Katy</h3>
+                    <p>Massage, acupuncture, holistic wellness</p>
+                </div>
+                <div class="partner-card">
+                    <h3>HOTWORX Katy</h3>
+                    <p>24-hour infrared fitness</p>
+                </div>
+                <div class="partner-card">
+                    <h3>Body & Brain Katy</h3>
+                    <p>Korean Tai Chi, meditation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title">About Vida-Tea</h2>
+                <p class="about-text">
+                    Founded by Erika and Mercedes, Vida-Tea brings premium wellness teas to everyone, everywhere. 
+                    Our mission is to provide universal access to the finest organic teas while creating 
+                    beautiful custom arrangements for life's special moments.
+                </p>
+                <div class="founders">
+                    <div class="founder">
+                        <h3>Erika</h3>
+                        <p>Wellness Advocate & Former Dentist</p>
+                        <p class="founder-desc">Passionate about health and organic living, Erika brings her medical background to create wellness-focused tea blends.</p>
+                    </div>
+                    <div class="founder">
+                        <h3>Mercedes</h3>
+                        <p>Community Leader & Former Venezuelan Lawyer</p>
+                        <p class="founder-desc">With her Venezuelan heritage and community focus, Mercedes creates inclusive tea experiences for all cultures.</p>
+                    </div>
+                </div>
+                <div class="mission-statement">
+                    <h3>Our Mission</h3>
+                    <p>"Tea for Life" - We believe wellness teas should be accessible to everyone, everywhere. 
+                    From our custom gift arrangements to our wellness blends, we create tea experiences that 
+                    celebrate life's moments and promote health for all.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Shopping Cart</h3>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearCart">Clear Cart</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authTitle">Sign In</h3>
+                <button class="modal-close" id="closeAuth">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" id="authSubmit">Sign In</button>
+                </form>
+                <p class="auth-switch">
+                    <span id="authSwitchText">Don't have an account?</span>
+                    <button class="btn-link" id="authSwitchBtn">Sign Up</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Vida-Tea</h3>
+                    <p>Tea for Life - Premium wellness teas for everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Starting in Katy, TX</p>
+                    <p>info@vida-tea.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 8AM-8PM</p>
+                    <p>Sat-Sun: 9AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vida-Tea. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

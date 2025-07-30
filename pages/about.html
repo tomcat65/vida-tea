@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Vida-Tea Wellness | Erika & Mercedes Story</title>
+    <meta name="description" content="Learn about Erika & Mercedes, founders of Vida-Tea. Their journey from healthcare and law to creating wellness teas for everyone.">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="../index.html" class="nav-link">Home</a></li>
+                    <li><a href="shop.html" class="nav-link">Shop</a></li>
+                    <li><a href="custom-arrangements.html" class="nav-link">Custom Arrangements</a></li>
+                    <li><a href="../index.html#wellness" class="nav-link">Wellness</a></li>
+                    <li><a href="about.html" class="nav-link active">About</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <button class="btn-auth" id="authBtn">Sign In</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- About Section -->
+    <section class="about-page">
+        <div class="container">
+            <h1 class="page-title">About Vida-Tea</h1>
+            <p class="page-subtitle">Our journey from healthcare and law to creating wellness teas for everyone</p>
+            
+            <!-- Mission Statement -->
+            <div class="mission-section">
+                <h2>Our Mission</h2>
+                <div class="mission-content">
+                    <div class="mission-quote">
+                        <h3>"Tea for Life"</h3>
+                        <p>We believe wellness teas should be accessible to everyone, everywhere. From our custom gift arrangements to our wellness blends, we create tea experiences that celebrate life's moments and promote health for all.</p>
+                    </div>
+                    <div class="mission-values">
+                        <div class="value">
+                            <h4>Universal Access</h4>
+                            <p>Wellness teas for all demographics and cultures</p>
+                        </div>
+                        <div class="value">
+                            <h4>Quality First</h4>
+                            <p>Premium organic teas from trusted suppliers</p>
+                        </div>
+                        <div class="value">
+                            <h4>Personal Touch</h4>
+                            <p>Handcrafted arrangements by our founders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Founders Story -->
+            <div class="founders-section">
+                <h2>Meet Our Founders</h2>
+                <div class="founders-grid">
+                    <div class="founder-card">
+                        <div class="founder-image">
+                            <div class="founder-avatar">👩‍⚕️</div>
+                        </div>
+                        <div class="founder-content">
+                            <h3>Erika</h3>
+                            <h4>Wellness Advocate & Former Dentist</h4>
+                            <p>With a background in dentistry and a passion for health, Erika brings her medical expertise to create wellness-focused tea blends. Her understanding of the body's needs and her commitment to organic living drive our product development.</p>
+                            <div class="founder-expertise">
+                                <h5>Expertise:</h5>
+                                <ul>
+                                    <li>Medical background in dentistry</li>
+                                    <li>Wellness-focused tea blending</li>
+                                    <li>Organic and health-conscious living</li>
+                                    <li>Stress relief and relaxation blends</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="founder-card">
+                        <div class="founder-image">
+                            <div class="founder-avatar">👩‍💼</div>
+                        </div>
+                        <div class="founder-content">
+                            <h3>Mercedes</h3>
+                            <h4>Community Leader & Former Venezuelan Lawyer</h4>
+                            <p>With her Venezuelan heritage and community focus, Mercedes creates inclusive tea experiences for all cultures. Her legal background brings attention to detail and her cultural roots inspire our diverse tea selections.</p>
+                            <div class="founder-expertise">
+                                <h5>Expertise:</h5>
+                                <ul>
+                                    <li>Venezuelan cultural heritage</li>
+                                    <li>Community engagement and outreach</li>
+                                    <li>Custom gift arrangements</li>
+                                    <li>Cultural tea traditions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Our Story -->
+            <div class="story-section">
+                <h2>Our Story</h2>
+                <div class="story-content">
+                    <div class="story-timeline">
+                        <div class="timeline-item">
+                            <h4>The Beginning</h4>
+                            <p>Erika and Mercedes met through their shared passion for wellness and community. Erika's medical background and Mercedes' cultural heritage created the perfect foundation for a unique tea business.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>The Vision</h4>
+                            <p>They envisioned a tea company that would serve everyone, not just a specific demographic. "Tea for Life" became their guiding principle - wellness teas accessible to all people, everywhere.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>The Unique Approach</h4>
+                            <p>Recognizing the gap in the market, they focused on custom gift arrangements as their unique differentiator. Handcrafted by the founders themselves, these arrangements became their signature offering.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>The Future</h4>
+                            <p>Starting in Katy, TX, but with universal appeal, Vida-Tea is positioned to grow beyond local boundaries while maintaining the personal touch that makes each arrangement special.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Values Section -->
+            <div class="values-section">
+                <h2>Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">🌍</div>
+                        <h3>Universal Appeal</h3>
+                        <p>We create teas and experiences that resonate with people from all backgrounds and cultures.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🌿</div>
+                        <h3>Organic Quality</h3>
+                        <p>All our teas are organic and sourced from trusted suppliers who share our commitment to quality.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">🤝</div>
+                        <h3>Personal Touch</h3>
+                        <p>Every custom arrangement is handcrafted by Erika and Mercedes with care and attention to detail.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">💝</div>
+                        <h3>Celebration</h3>
+                        <p>We believe tea should be part of life's special moments, from weddings to corporate events.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <h2>Get in Touch</h2>
+                <p>Ready to create your custom tea arrangement or learn more about our wellness blends?</p>
+                <div class="contact-options">
+                    <div class="contact-option">
+                        <h4>Custom Arrangements</h4>
+                        <p>Contact us to discuss your special event needs</p>
+                        <a href="custom-arrangements.html" class="btn-primary">Start Custom Order</a>
+                    </div>
+                    <div class="contact-option">
+                        <h4>General Inquiries</h4>
+                        <p>Questions about our teas or wellness benefits?</p>
+                        <a href="mailto:info@vida-tea.com" class="btn-secondary">Email Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Vida-Tea</h3>
+                    <p>Tea for Life - Premium wellness teas for everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Starting in Katy, TX</p>
+                    <p>info@vida-tea.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Hours</h4>
+                    <p>Mon-Fri: 8AM-8PM</p>
+                    <p>Sat-Sun: 9AM-6PM</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vida-Tea. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html> 
