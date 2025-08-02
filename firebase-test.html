@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Test - Vida-Tea</h1>
+    <div id="log" class="log">Testing Firebase connection...</div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : '';
+            logEl.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            console.log(message);
+        }
+        
+        async function testFirebase() {
+            try {
+                log('Testing Firebase SDK availability...');
+                
+                if (!firebase) {
+                    log('❌ Firebase SDK not loaded', 'error');
+                    return;
+                }
+                log('✅ Firebase SDK loaded', 'success');
+                
+                if (!firebase.initializeApp) {
+                    log('❌ Firebase initializeApp not available', 'error');
+                    return;
+                }
+                log('✅ Firebase initializeApp available', 'success');
+                
+                if (!firebase.auth) {
+                    log('❌ Firebase auth not available', 'error');
+                    return;
+                }
+                log('✅ Firebase auth available', 'success');
+                
+                if (!firebase.firestore) {
+                    log('❌ Firebase firestore not available', 'error');
+                    return;
+                }
+                log('✅ Firebase firestore available', 'success');
+                
+                // Test initialization
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                log('Initializing Firebase app...');
+                firebase.initializeApp(firebaseConfig);
+                log('✅ Firebase app initialized', 'success');
+                
+                // Test services
+                const auth = firebase.auth();
+                const db = firebase.firestore();
+                log('✅ Firebase services initialized', 'success');
+                
+                // Test database connection
+                log('Testing database connection...');
+                const snapshot = await db.collection('products').get();
+                log(`✅ Database connected! Found ${snapshot.size} products`, 'success');
+                
+                if (snapshot.size > 0) {
+                    const firstProduct = snapshot.docs[0].data();
+                    log(`First product: ${firstProduct.name}`);
+                }
+                
+            } catch (error) {
+                log(`❌ Firebase test failed: ${error.message}`, 'error');
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', testFirebase);
+    </script>
+</body>
+</html> 

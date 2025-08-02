@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Vida-Tea</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cart.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Checkout specific styles */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-xl);
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .checkout-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .section-title {
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--deep-green);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .order-summary {
+            background: var(--warm-beige);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 2px solid var(--primary-green);
+        }
+        
+        .btn-checkout {
+            width: 100%;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-checkout:hover {
+            background: var(--deep-green);
+        }
+        
+        .btn-checkout:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .payment-method {
+            flex: 1;
+            padding: var(--spacing-sm);
+            border: 2px solid #e0e0e0;
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="index.html" class="btn-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Discovery Banner for Checkout -->
+    <div class="discovery-banner" style="background: linear-gradient(135deg, var(--warm-beige), #f8f6f0); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin-bottom: var(--spacing-xl); text-align: center; border: 2px solid var(--primary-green); box-shadow: 0 8px 25px rgba(34, 139, 34, 0.1); max-width: 1200px; margin: 0 auto var(--spacing-xl) auto;">
+        <h3 style="color: var(--primary-green); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">🎯 Need help finding the perfect tea?</h3>
+        <p style="color: var(--accent-green); margin-bottom: var(--spacing-md);">Our discovery system can guide you to teas that match your preferences and wellness goals</p>
+        <a href="discovery.html" class="btn-primary" style="display: inline-block; font-size: 1rem; padding: var(--spacing-sm) var(--spacing-lg); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3); margin-right: var(--spacing-md);">
+            🚀 Start Discovery Journey
+        </a>
+        <a href="index.html" class="btn-secondary" style="display: inline-block; font-size: 1rem; padding: var(--spacing-sm) var(--spacing-lg);">
+            Continue Shopping
+        </a>
+    </div>
+
+    <!-- Checkout Section -->
+    <section class="checkout-container">
+        <div class="checkout-grid">
+            <!-- Checkout Form -->
+            <div class="checkout-section">
+                <h2 class="section-title">Shipping Information</h2>
+                
+                <form id="checkoutForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" id="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-input" id="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-input" id="address" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-input" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-input" id="state" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">ZIP Code</label>
+                            <input type="text" class="form-input" id="zipCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <input type="text" class="form-input" id="country" value="United States" required>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title" style="margin-top: var(--spacing-xl);">Payment Method</h3>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method selected" data-method="card">
+                            <div>💳</div>
+                            <div>Credit Card</div>
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <div>📧</div>
+                            <div>PayPal</div>
+                        </div>
+                    </div>
+                    
+                    <div id="cardDetails" class="form-group">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-input" id="cvv" placeholder="123">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expiry Month</label>
+                                <select class="form-input" id="expiryMonth">
+                                    <option value="">Month</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Expiry Year</label>
+                                <select class="form-input" id="expiryYear">
+                                    <option value="">Year</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="checkout-section">
+                <h2 class="section-title">Order Summary</h2>
+                
+                <div class="order-summary">
+                    <div id="orderItems">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                    
+                    <div class="order-total">
+                        <div class="order-item">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="order-item">
+                            <span>Shipping:</span>
+                            <span id="shipping">$5.99</span>
+                        </div>
+                        <div class="order-item">
+                            <span>Tax:</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        <div class="order-item">
+                            <strong>Total:</strong>
+                            <strong id="total">$0.00</strong>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-checkout" id="placeOrderBtn">
+                        <span id="orderBtnText">Place Order</span>
+                        <span id="orderBtnSpinner" class="loading-spinner" style="display: none;"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Checkout functionality
+        let cartItems = [];
+        let selectedPaymentMethod = 'card';
+        
+        function log(message) {
+            console.log('[Checkout]', message);
+        }
+        
+        // Load cart items from localStorage
+        function loadCartItems() {
+            try {
+                const saved = localStorage.getItem('vida-tea-cart');
+                cartItems = saved ? JSON.parse(saved) : [];
+                log(`Loaded ${cartItems.length} items from cart`);
+                renderOrderSummary();
+            } catch (error) {
+                log('Error loading cart:', error);
+                cartItems = [];
+            }
+        }
+        
+        // Render order summary
+        function renderOrderSummary() {
+            const orderItems = document.getElementById('orderItems');
+            const subtotalEl = document.getElementById('subtotal');
+            const shippingEl = document.getElementById('shipping');
+            const taxEl = document.getElementById('tax');
+            const totalEl = document.getElementById('total');
+            
+            if (cartItems.length === 0) {
+                orderItems.innerHTML = `
+                    <div class="empty-cart">
+                        <p>Your cart is empty</p>
+                        <a href="index.html" class="btn-primary">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Render items
+            const itemsHtml = cartItems.map(item => `
+                <div class="order-item">
+                    <div>
+                        <strong>${item.name}</strong>
+                        <br>
+                        <small>Qty: ${item.quantity}</small>
+                    </div>
+                    <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                </div>
+            `).join('');
+            
+            orderItems.innerHTML = itemsHtml;
+            
+            // Calculate totals
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 5.99;
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + shipping + tax;
+            
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            shippingEl.textContent = `$${shipping.toFixed(2)}`;
+            taxEl.textContent = `$${tax.toFixed(2)}`;
+            totalEl.textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Handle payment method selection
+        function initPaymentMethods() {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const cardDetails = document.getElementById('cardDetails');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    // Remove selected class from all methods
+                    paymentMethods.forEach(m => m.classList.remove('selected'));
+                    
+                    // Add selected class to clicked method
+                    method.classList.add('selected');
+                    
+                    // Update selected method
+                    selectedPaymentMethod = method.dataset.method;
+                    
+                    // Show/hide card details
+                    if (selectedPaymentMethod === 'card') {
+                        cardDetails.style.display = 'block';
+                    } else {
+                        cardDetails.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Handle form submission
+        function initCheckoutForm() {
+            const form = document.getElementById('checkoutForm');
+            const placeOrderBtn = document.getElementById('placeOrderBtn');
+            const orderBtnText = document.getElementById('orderBtnText');
+            const orderBtnSpinner = document.getElementById('orderBtnSpinner');
+            
+            placeOrderBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                if (cartItems.length === 0) {
+                    showToast('Your cart is empty', 'error');
+                    return;
+                }
+                
+                // Validate form
+                const formData = new FormData(form);
+                const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode'];
+                
+                for (const field of requiredFields) {
+                    const input = document.getElementById(field);
+                    if (!input.value.trim()) {
+                        showToast(`Please fill in ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`, 'error');
+                        input.focus();
+                        return;
+                    }
+                }
+                
+                // Show loading state
+                placeOrderBtn.disabled = true;
+                orderBtnText.style.display = 'none';
+                orderBtnSpinner.style.display = 'inline-block';
+                
+                try {
+                    // Simulate order processing
+                    await processOrder();
+                    
+                    // Generate order confirmation
+                    const orderConfirmation = generateOrderConfirmation();
+                    
+                    // Clear cart
+                    localStorage.removeItem('vida-tea-cart');
+                    cartItems = [];
+                    
+                    // Show order confirmation
+                    showOrderConfirmation(orderConfirmation);
+                    
+                } catch (error) {
+                    log('Order processing error:', error);
+                    showToast('Failed to place order. Please try again.', 'error');
+                } finally {
+                    // Reset button state
+                    placeOrderBtn.disabled = false;
+                    orderBtnText.style.display = 'inline';
+                    orderBtnSpinner.style.display = 'none';
+                }
+            });
+        }
+        
+        // Process order (simulated)
+        async function processOrder() {
+            return new Promise((resolve) => {
+                // Simulate API call delay
+                setTimeout(() => {
+                    log('Order processed successfully');
+                    resolve();
+                }, 2000);
+            });
+        }
+        
+        // Generate order confirmation
+        function generateOrderConfirmation() {
+            const orderNumber = 'VT-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            const orderDate = new Date().toLocaleDateString();
+            const orderTime = new Date().toLocaleTimeString();
+            
+            return {
+                orderNumber: orderNumber,
+                orderDate: orderDate,
+                orderTime: orderTime,
+                items: cartItems,
+                total: calculateOrderTotal()
+            };
+        }
+        
+        function calculateOrderTotal() {
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 5.99;
+            const tax = subtotal * 0.08;
+            return subtotal + shipping + tax;
+        }
+        
+        // Show order confirmation
+        function showOrderConfirmation(order) {
+            const confirmationHtml = `
+                <div class="order-confirmation" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                        <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+                            <div style="font-size: 4rem; margin-bottom: var(--spacing-md);">🎉</div>
+                            <h2 style="color: var(--primary-green); margin-bottom: var(--spacing-sm);">Order Confirmed!</h2>
+                            <p style="color: var(--accent-green);">Thank you for your purchase</p>
+                        </div>
+                        
+                        <div style="background: var(--warm-beige); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg);">
+                            <h3 style="color: var(--primary-green); margin-bottom: var(--spacing-sm);">Order Details</h3>
+                            <p><strong>Order Number:</strong> ${order.orderNumber}</p>
+                            <p><strong>Date:</strong> ${order.orderDate} at ${order.orderTime}</p>
+                            <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+                        </div>
+                        
+                        <div style="margin-bottom: var(--spacing-lg);">
+                            <h4 style="color: var(--primary-green); margin-bottom: var(--spacing-sm);">Items Ordered:</h4>
+                            ${order.items.map(item => `
+                                <div style="display: flex; justify-content: space-between; padding: var(--spacing-xs) 0; border-bottom: 1px solid #eee;">
+                                    <span>${item.name} (Qty: ${item.quantity})</span>
+                                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <p style="color: var(--accent-green); margin-bottom: var(--spacing-md);">You will receive an email confirmation shortly.</p>
+                            <button onclick="window.location.href='index.html'" style="background: var(--primary-green); color: white; border: none; padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-md); cursor: pointer; font-size: 1.1rem;">Continue Shopping</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', confirmationHtml);
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 3000);
+            
+            toast.addEventListener('click', () => {
+                toast.remove();
+            });
+        }
+        
+        // Initialize checkout
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Initializing checkout...');
+            loadCartItems();
+            initPaymentMethods();
+            initCheckoutForm();
+        });
+    </script>
+    
+    <!-- Floating Discovery Button -->
+    <div class="floating-discovery-btn" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
+        <a href="discovery.html" class="btn-primary" style="display: flex; align-items: center; padding: var(--spacing-md) var(--spacing-lg); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3); border-radius: 50px; color: white; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; transform: scale(1);">
+            🎯 Tea Discovery
+            <span style="margin-left: var(--spacing-sm); font-size: 0.9rem;">→</span>
+        </a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,407 @@
+/**
+ * Vida-Tea Cultural Adaptive CSS
+ * Supports 6 languages with authentic cultural fonts and themes
+ * 
+ * Languages: English, Spanish, Korean, Vietnamese, Chinese, Hindi
+ * Features: Cultural fonts, color themes, accessibility, mobile optimization
+ */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap');
+
+/* Cultural CSS Variables */
+:root {
+    /* Universal Theme (English) */
+    --universal-primary: #228B22;
+    --universal-accent: #32CD32;
+    --universal-cultural-accent: #228B22;
+    
+    /* Latino Theme (Spanish) */
+    --latino-primary: #D4AF37;
+    --latino-accent: #FFD700;
+    --latino-cultural-accent: #D4AF37;
+    
+    /* Korean Theme */
+    --korean-primary: #FF6B6B;
+    --korean-accent: #FF8E8E;
+    --korean-cultural-accent: #FF6B6B;
+    
+    /* Vietnamese Theme */
+    --vietnamese-primary: #FF6B35;
+    --vietnamese-accent: #FF8E53;
+    --vietnamese-cultural-accent: #FF6B35;
+    
+    /* Chinese Theme */
+    --chinese-primary: #DC143C;
+    --chinese-accent: #FF4D4D;
+    --chinese-cultural-accent: #DC143C;
+    
+    /* Indian Theme (Hindi) */
+    --indian-primary: #FF9933;
+    --indian-accent: #FFB366;
+    --indian-cultural-accent: #FF9933;
+    
+    /* Font Variables */
+    --cultural-font: 'Inter', sans-serif;
+    --korean-font: 'Noto Sans KR', sans-serif;
+    --chinese-font: 'Noto Sans SC', sans-serif;
+    --hindi-font: 'Noto Sans Devanagari', sans-serif;
+    
+    /* Default to universal theme */
+    --primary-color: var(--universal-primary);
+    --accent-color: var(--universal-accent);
+    --cultural-accent: var(--universal-cultural-accent);
+}
+
+/* Cultural Theme Classes */
+.cultural-universal {
+    --primary-color: var(--universal-primary);
+    --accent-color: var(--universal-accent);
+    --cultural-accent: var(--universal-cultural-accent);
+    --cultural-font: 'Inter', sans-serif;
+}
+
+.cultural-latino {
+    --primary-color: var(--latino-primary);
+    --accent-color: var(--latino-accent);
+    --cultural-accent: var(--latino-cultural-accent);
+    --cultural-font: 'Inter', sans-serif;
+}
+
+.cultural-korean {
+    --primary-color: var(--korean-primary);
+    --accent-color: var(--korean-accent);
+    --cultural-accent: var(--korean-cultural-accent);
+    --cultural-font: var(--korean-font);
+}
+
+.cultural-vietnamese {
+    --primary-color: var(--vietnamese-primary);
+    --accent-color: var(--vietnamese-accent);
+    --cultural-accent: var(--vietnamese-cultural-accent);
+    --cultural-font: 'Inter', sans-serif;
+}
+
+.cultural-chinese {
+    --primary-color: var(--chinese-primary);
+    --accent-color: var(--chinese-accent);
+    --cultural-accent: var(--chinese-cultural-accent);
+    --cultural-font: var(--chinese-font);
+}
+
+.cultural-indian {
+    --primary-color: var(--indian-primary);
+    --accent-color: var(--indian-accent);
+    --cultural-accent: var(--indian-cultural-accent);
+    --cultural-font: var(--hindi-font);
+}
+
+/* Language-Specific Typography */
+[lang="ko"] {
+    font-family: var(--korean-font);
+    line-height: 1.6;
+}
+
+[lang="zh"] {
+    font-family: var(--chinese-font);
+    line-height: 1.5;
+}
+
+[lang="hi"] {
+    font-family: var(--hindi-font);
+    line-height: 1.6;
+}
+
+/* Cultural Elements */
+.cultural-accent {
+    color: var(--cultural-accent);
+}
+
+.cultural-border {
+    border-color: var(--cultural-accent);
+}
+
+.cultural-bg {
+    background-color: var(--cultural-accent);
+}
+
+/* Language Switcher Styles */
+.language-switcher {
+    position: relative;
+    display: inline-block;
+}
+
+.language-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: var(--primary-color);
+}
+
+.language-btn:hover {
+    background: var(--warm-beige);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.dropdown-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.language-switcher:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.language-switcher:hover .language-dropdown,
+.language-switcher:focus-within .language-dropdown,
+.language-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.language-option:last-child {
+    border-bottom: none;
+}
+
+.language-option:hover {
+    background-color: var(--warm-beige);
+}
+
+.language-option.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.language-flag {
+    width: 20px;
+    height: 15px;
+    margin-right: var(--spacing-sm);
+    border-radius: 2px;
+}
+
+.language-name {
+    font-weight: 500;
+}
+
+/* Cultural Loading States */
+.cultural-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--cultural-accent);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: cultural-spin 1s linear infinite;
+}
+
+@keyframes cultural-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Accessibility Enhancements */
+[lang] {
+    /* Ensure proper language announcement for screen readers */
+}
+
+.cultural-focus:focus {
+    outline: 2px solid var(--cultural-accent);
+    outline-offset: 2px;
+}
+
+/* Mobile Responsive Cultural Elements */
+@media (max-width: 768px) {
+    .language-dropdown {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+    
+    .language-option {
+        padding: var(--spacing-md);
+        font-size: 1.1rem;
+    }
+}
+
+/* Cultural Animation Classes */
+.cultural-fade-in {
+    animation: culturalFadeIn 0.5s ease-out;
+}
+
+@keyframes culturalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cultural-slide-in {
+    animation: culturalSlideIn 0.6s ease-out;
+}
+
+@keyframes culturalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Cultural Button Styles */
+.btn-cultural {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cultural:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cultural:active {
+    transform: translateY(0);
+}
+
+/* Cultural Card Styles */
+.cultural-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.cultural-card:hover {
+    border-color: var(--cultural-accent);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Cultural Text Utilities */
+.text-cultural-primary {
+    color: var(--primary-color);
+}
+
+.text-cultural-accent {
+    color: var(--accent-color);
+}
+
+.text-cultural-emphasis {
+    color: var(--cultural-accent);
+    font-weight: 600;
+}
+
+/* Cultural Background Utilities */
+.bg-cultural-primary {
+    background-color: var(--primary-color);
+}
+
+.bg-cultural-accent {
+    background-color: var(--accent-color);
+}
+
+.bg-cultural-subtle {
+    background-color: rgba(var(--primary-color), 0.1);
+}
+
+/* Cultural Border Utilities */
+.border-cultural-primary {
+    border-color: var(--primary-color);
+}
+
+.border-cultural-accent {
+    border-color: var(--accent-color);
+}
+
+.border-cultural-emphasis {
+    border-color: var(--cultural-accent);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .cultural-card {
+        border-width: 3px;
+    }
+    
+    .btn-cultural {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .cultural-fade-in,
+    .cultural-slide-in {
+        animation: none;
+    }
+    
+    .cultural-loading {
+        animation: none;
+    }
+    
+    .btn-cultural:hover {
+        transform: none;
+    }
+    
+    .cultural-card:hover {
+        transform: none;
+    }
+} 

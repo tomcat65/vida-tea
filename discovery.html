@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea Discovery Journey - Vida-Tea</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cart.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Discovery specific styles */
+        .discovery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .discovery-step {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .discovery-step.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .welcome-screen {
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+        }
+        
+        .welcome-title {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-md);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .discovery-paths {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .discovery-path {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .discovery-path:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-green);
+        }
+        
+        .discovery-path.selected {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .path-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+        
+        .path-description {
+            color: var(--accent-green);
+            line-height: 1.6;
+        }
+        
+        .wellness-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .wellness-option {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .wellness-option:hover {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .wellness-option.selected {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .cultural-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .cultural-option {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .cultural-option:hover {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .cultural-option.selected {
+            border-color: var(--primary-green);
+            background: var(--warm-beige);
+        }
+        
+        .preference-section {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .preference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .preference-option {
+            background: var(--warm-beige);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .preference-option:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .preference-option.selected {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .enhanced-tea-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+        
+        .enhanced-tea-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .cultural-story {
+            background: var(--warm-beige);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-md) 0;
+            font-style: italic;
+        }
+        
+        .wellness-benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin: var(--spacing-sm) 0;
+        }
+        
+        .wellness-tag {
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+        }
+        
+        .brewing-instructions {
+            background: #f8f9fa;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            margin: var(--spacing-sm) 0;
+            font-size: 0.9rem;
+        }
+        
+        .btn-discover {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-discover:hover {
+            background: var(--deep-green);
+        }
+        
+        .btn-back {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-back:hover {
+            background: var(--deep-green);
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <div class="nav-actions">
+                    <a href="index.html" class="btn-secondary">Back to Shop</a>
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Discovery Container -->
+    <div class="discovery-container">
+        <!-- Step 1: Welcome Screen -->
+        <div class="discovery-step active" id="step1">
+            <div class="welcome-screen">
+                <h1 class="welcome-title">How are you feeling today?</h1>
+                <p class="welcome-subtitle">Let us guide you to the perfect tea for your wellness journey</p>
+                
+                <div class="discovery-paths">
+                    <div class="discovery-path" data-path="wellness">
+                        <div class="path-icon">🌱</div>
+                        <h3 class="path-title">Wellness Discovery</h3>
+                        <p class="path-description">Find teas based on how you're feeling and what you need most</p>
+                    </div>
+                    
+                    <div class="discovery-path" data-path="cultural">
+                        <div class="path-icon">🌍</div>
+                        <h3 class="path-title">Cultural Tea Journey</h3>
+                        <p class="path-description">Explore teas from different cultures and traditions around the world</p>
+                    </div>
+                    
+                    <div class="discovery-path" data-path="combined">
+                        <div class="path-icon">✨</div>
+                        <h3 class="path-title">Surprise Me</h3>
+                        <p class="path-description">Let us curate a unique combination of wellness and cultural discovery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Wellness Options -->
+        <div class="discovery-step" id="step2-wellness">
+            <h2 class="section-title">What do you need today?</h2>
+            
+            <div class="wellness-options">
+                <div class="wellness-option" data-wellness="balanced">
+                    <div style="font-size: 2rem;">🌱</div>
+                    <h3>I need to feel balanced and well</h3>
+                    <p>Harmonizing blends for overall wellness</p>
+                </div>
+                
+                <div class="wellness-option" data-wellness="relaxed">
+                    <div style="font-size: 2rem;">🧘</div>
+                    <h3>I want to relax and unwind</h3>
+                    <p>Calming teas for peace and tranquility</p>
+                </div>
+                
+                <div class="wellness-option" data-wellness="energized">
+                    <div style="font-size: 2rem;">⚡</div>
+                    <h3>I need energy and focus</h3>
+                    <p>Energizing blends for clarity and vitality</p>
+                </div>
+                
+                <div class="wellness-option" data-wellness="immune">
+                    <div style="font-size: 2rem;">🛡️</div>
+                    <h3>I want to boost my immunity</h3>
+                    <p>Protective teas for health and strength</p>
+                </div>
+                
+                <div class="wellness-option" data-wellness="sleep">
+                    <div style="font-size: 2rem;">🌙</div>
+                    <h3>I need help sleeping peacefully</h3>
+                    <p>Soothing teas for restful sleep</p>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-back" onclick="goToStep(1)">Back</button>
+                <button class="btn-discover" onclick="continueToPreferences()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Cultural Options -->
+        <div class="discovery-step" id="step2-cultural">
+            <h2 class="section-title">Which culture speaks to you today?</h2>
+            
+            <div class="cultural-options">
+                <div class="cultural-option" data-culture="indian">
+                    <div style="font-size: 2rem;">🇮🇳</div>
+                    <h3>Indian</h3>
+                    <p>Chai, Masala, Ayurvedic wisdom</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="chinese">
+                    <div style="font-size: 2rem;">🇨🇳</div>
+                    <h3>Chinese</h3>
+                    <p>Oolong, Pu-erh, Ancient traditions</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="english">
+                    <div style="font-size: 2rem;">🇬🇧</div>
+                    <h3>English</h3>
+                    <p>Earl Grey, Afternoon tea elegance</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="latin">
+                    <div style="font-size: 2rem;">🌎</div>
+                    <h3>Latin American</h3>
+                    <p>Yerba Mate, Indigenous wisdom</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="world">
+                    <div style="font-size: 2rem;">🌍</div>
+                    <h3>World Class</h3>
+                    <p>International premium blends</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="european">
+                    <div style="font-size: 2rem;">🇪🇺</div>
+                    <h3>European</h3>
+                    <p>Chamomile, Continental herbals</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="japanese">
+                    <div style="font-size: 2rem;">🇯🇵</div>
+                    <h3>Japanese</h3>
+                    <p>Matcha, Tea ceremony culture</p>
+                </div>
+                
+                <div class="cultural-option" data-culture="middle-eastern">
+                    <div style="font-size: 2rem;">🇲🇦</div>
+                    <h3>Middle Eastern</h3>
+                    <p>Mint tea, Desert traditions</p>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-back" onclick="goToStep(1)">Back</button>
+                <button class="btn-discover" onclick="continueToPreferences()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Preferences -->
+        <div class="discovery-step" id="step3">
+            <h2 class="section-title">Tell us about your preferences</h2>
+            
+            <div class="preference-section">
+                <h3>Temperature Preference</h3>
+                <div class="preference-grid">
+                    <div class="preference-option" data-preference="temperature" data-value="hot">☕ Hot</div>
+                    <div class="preference-option" data-preference="temperature" data-value="cold">🧊 Cold</div>
+                    <div class="preference-option" data-preference="temperature" data-value="both">Both</div>
+                </div>
+            </div>
+            
+            <div class="preference-section">
+                <h3>Caffeine Level</h3>
+                <div class="preference-grid">
+                    <div class="preference-option" data-preference="caffeine" data-value="high">High</div>
+                    <div class="preference-option" data-preference="caffeine" data-value="moderate">Moderate</div>
+                    <div class="preference-option" data-preference="caffeine" data-value="light">Light</div>
+                    <div class="preference-option" data-preference="caffeine" data-value="none">None</div>
+                </div>
+            </div>
+            
+            <div class="preference-section">
+                <h3>Flavor Journey</h3>
+                <div class="preference-grid">
+                    <div class="preference-option" data-preference="flavor" data-value="floral">🌸 Floral</div>
+                    <div class="preference-option" data-preference="flavor" data-value="earthy">🌿 Earthy</div>
+                    <div class="preference-option" data-preference="flavor" data-value="spicy">🌶️ Spicy</div>
+                    <div class="preference-option" data-preference="flavor" data-value="fresh">🍃 Fresh</div>
+                    <div class="preference-option" data-preference="flavor" data-value="sweet">🍯 Sweet</div>
+                </div>
+            </div>
+            
+            <div class="preference-section">
+                <h3>Time of Day</h3>
+                <div class="preference-grid">
+                    <div class="preference-option" data-preference="time" data-value="morning">🌅 Morning</div>
+                    <div class="preference-option" data-preference="time" data-value="afternoon">☀️ Afternoon</div>
+                    <div class="preference-option" data-preference="time" data-value="evening">🌙 Evening</div>
+                </div>
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-back" onclick="goBack()">Back</button>
+                <button class="btn-discover" onclick="findRecommendations()">Discover My Teas</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Recommendations -->
+        <div class="discovery-step" id="step4">
+            <h2 class="section-title">Your Curated Tea Discovery</h2>
+            <p class="section-subtitle">Based on your preferences, here are our recommendations</p>
+            
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Recommendations will be loaded here -->
+            </div>
+            
+            <div class="navigation-buttons">
+                <button class="btn-back" onclick="goToStep(1)">Start Over</button>
+                <button class="btn-discover" onclick="window.location.href='index.html'">Explore All Teas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Shopping Cart</h3>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearCart">Clear Cart</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Discovery state
+        let discoveryState = {
+            path: null,
+            wellness: null,
+            culture: null,
+            preferences: {}
+        };
+        
+        function log(message) {
+            console.log('[Discovery]', message);
+        }
+        
+        // Navigation functions
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.discovery-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show appropriate step
+            if (step === 1) {
+                document.getElementById('step1').classList.add('active');
+            } else if (step === 2) {
+                if (discoveryState.path === 'wellness') {
+                    document.getElementById('step2-wellness').classList.add('active');
+                } else if (discoveryState.path === 'cultural') {
+                    document.getElementById('step2-cultural').classList.add('active');
+                }
+            } else if (step === 3) {
+                document.getElementById('step3').classList.add('active');
+            } else if (step === 4) {
+                document.getElementById('step4').classList.add('active');
+            }
+        }
+        
+        function goBack() {
+            if (discoveryState.path === 'wellness' || discoveryState.path === 'cultural') {
+                goToStep(2);
+            } else {
+                goToStep(1);
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Discovery path selection
+            document.querySelectorAll('.discovery-path').forEach(path => {
+                path.addEventListener('click', () => {
+                    discoveryState.path = path.dataset.path;
+                    goToStep(2);
+                });
+            });
+            
+            // Wellness option selection
+            document.querySelectorAll('.wellness-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.wellness-option').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    discoveryState.wellness = option.dataset.wellness;
+                });
+            });
+            
+            // Cultural option selection
+            document.querySelectorAll('.cultural-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.cultural-option').forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    discoveryState.culture = option.dataset.culture;
+                });
+            });
+            
+            // Preference selection
+            document.querySelectorAll('.preference-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const preference = option.dataset.preference;
+                    const value = option.dataset.value;
+                    
+                    // Remove selection from other options in same group
+                    document.querySelectorAll(`[data-preference="${preference}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    option.classList.add('selected');
+                    discoveryState.preferences[preference] = value;
+                });
+            });
+        });
+        
+        function continueToPreferences() {
+            if (discoveryState.path === 'wellness' && !discoveryState.wellness) {
+                alert('Please select how you\'re feeling today');
+                return;
+            }
+            if (discoveryState.path === 'cultural' && !discoveryState.culture) {
+                alert('Please select a cultural tradition');
+                return;
+            }
+            goToStep(3);
+        }
+        
+        function findRecommendations() {
+            // Check if all preferences are selected
+            const requiredPreferences = ['temperature', 'caffeine', 'flavor', 'time'];
+            const missingPreferences = requiredPreferences.filter(pref => !discoveryState.preferences[pref]);
+            
+            if (missingPreferences.length > 0) {
+                alert('Please select all preferences to get personalized recommendations');
+                return;
+            }
+            
+            // Save discovery preferences to cart manager for recommendations
+            if (window.cartManager) {
+                window.cartManager.saveDiscoveryPreferences(discoveryState.preferences);
+            }
+            
+            goToStep(4);
+            loadRecommendations();
+        }
+        
+        function loadRecommendations() {
+            // This would typically load from Firebase based on preferences
+            // For now, we'll show sample recommendations
+            const recommendationsGrid = document.getElementById('recommendationsGrid');
+            
+            const sampleRecommendations = [
+                {
+                    id: 'wellness-balance-1',
+                    name: 'Harmony Blend',
+                    description: 'A balanced blend of chamomile, lavender, and green tea',
+                    price: 28.00,
+                    cultural_origin: 'European tradition meets modern wellness',
+                    wellness_benefits: ['Balance', 'Calm', 'Focus'],
+                    brewing_instructions: 'Steep 3-5 minutes at 175°F',
+                    traditional_uses: 'Used in European monasteries for meditation',
+                    perfect_for: 'Morning ritual or afternoon break'
+                },
+                {
+                    id: 'cultural-chinese-1',
+                    name: 'Dragon Well Green',
+                    description: 'Premium Chinese green tea with delicate flavor',
+                    price: 32.00,
+                    cultural_origin: 'Ancient Chinese tea ceremony tradition',
+                    wellness_benefits: ['Energy', 'Focus', 'Antioxidants'],
+                    brewing_instructions: 'Steep 2-3 minutes at 160°F',
+                    traditional_uses: 'Served in traditional Chinese tea ceremonies',
+                    perfect_for: 'Morning energy and focus'
+                },
+                {
+                    id: 'combined-wellness-1',
+                    name: 'Serenity Blend',
+                    description: 'A calming blend inspired by Japanese tea ceremony',
+                    price: 30.00,
+                    cultural_origin: 'Japanese zen tradition with modern relaxation',
+                    wellness_benefits: ['Relaxation', 'Sleep', 'Peace'],
+                    brewing_instructions: 'Steep 4-6 minutes at 180°F',
+                    traditional_uses: 'Used in Japanese tea ceremonies for meditation',
+                    perfect_for: 'Evening wind-down and peaceful sleep'
+                }
+            ];
+            
+            const html = sampleRecommendations.map(tea => `
+                <div class="enhanced-tea-card">
+                    <h3 class="tea-title">${tea.name}</h3>
+                    <p class="tea-description">${tea.description}</p>
+                    
+                    <div class="cultural-story">
+                        <strong>Cultural Origin:</strong> ${tea.cultural_origin}
+                    </div>
+                    
+                    <div class="wellness-benefits">
+                        ${tea.wellness_benefits.map(benefit => 
+                            `<span class="wellness-tag">${benefit}</span>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="brewing-instructions">
+                        <strong>Brewing:</strong> ${tea.brewing_instructions}
+                    </div>
+                    
+                    <div class="cultural-story">
+                        <strong>Traditional Uses:</strong> ${tea.traditional_uses}
+                    </div>
+                    
+                    <div class="cultural-story">
+                        <strong>Perfect for:</strong> ${tea.perfect_for}
+                    </div>
+                    
+                    <div class="price-display">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">${tea.price.toFixed(2)}</span>
+                        <span class="price-unit">/oz</span>
+                    </div>
+                    
+                    <div class="tea-actions">
+                        <div class="tea-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('${tea.id}', -1)">-</button>
+                            <input type="number" value="1" min="1" max="10" id="qty-${tea.id}">
+                            <button class="quantity-btn" onclick="updateQuantity('${tea.id}', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${tea.id}')">Try this wellness blend</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add a prominent "Continue to Shop" section
+            recommendationsGrid.innerHTML += `
+                <div class="continue-shopping-section" style="grid-column: 1 / -1; text-align: center; margin-top: var(--spacing-xl); padding: var(--spacing-lg); background: linear-gradient(135deg, var(--warm-beige), #f8f6f0); border-radius: var(--radius-lg); border: 2px solid var(--primary-green);">
+                    <h3 style="color: var(--primary-green); margin-bottom: var(--spacing-md);">🎯 Want to explore more teas?</h3>
+                    <p style="color: var(--accent-green); margin-bottom: var(--spacing-lg);">Continue your tea journey with our complete collection</p>
+                    <a href="index.html" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3); margin-right: var(--spacing-md);">
+                        🛍️ Continue Shopping
+                    </a>
+                    <button onclick="restartDiscovery()" class="btn-secondary" style="display: inline-block; font-size: 1.1rem; padding: var(--spacing-md) var(--spacing-xl);">
+                        🔄 Start New Discovery
+                    </button>
+                </div>
+                </div>
+            `).join('');
+            
+            recommendationsGrid.innerHTML = html;
+        }
+        
+        // Helper functions for cart functionality
+        function updateQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (input) {
+                const newValue = Math.max(1, Math.min(10, parseInt(input.value) + change));
+                input.value = newValue;
+            }
+        }
+        
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-${productId}`);
+            const quantity = input ? parseInt(input.value) : 1;
+            
+            if (window.cartManager) {
+                window.cartManager.addToCart(productId, quantity);
+            }
+        }
+        
+        function restartDiscovery() {
+            // Reset discovery state
+            discoveryState = {
+                path: '',
+                wellness: '',
+                culture: '',
+                preferences: {}
+            };
+            
+            // Go back to first step
+            goToStep(1);
+        }
+    </script>
+    
+    <!-- Cart Manager -->
+    <script src="js/cart-manager.js"></script>
+</body>
+</html> 

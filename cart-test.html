@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Test - Vida-Tea</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cart.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Test Section -->
+    <section class="featured-teas" id="teas">
+        <div class="container">
+            <h2 class="section-title">Cart Test - Vida-Tea</h2>
+            <p class="section-subtitle">Testing shopping cart functionality</p>
+            
+            <div class="tea-grid" id="teaGrid">
+                <!-- Products will be loaded here -->
+                <div class="loading-state">
+                    <div class="loading-spinner">🔄</div>
+                    <p>Loading products for cart test...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Shopping Cart</h3>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearCart">Clear Cart</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple working product loading logic with cart integration
+        function log(message) {
+            console.log('[Cart Test]', message);
+        }
+        
+        function renderProducts(products) {
+            log(`Rendering ${products.length} products...`);
+            
+            const teaGrid = document.getElementById('teaGrid');
+            if (!teaGrid) {
+                log('❌ teaGrid element not found');
+                return;
+            }
+            
+            log('✅ teaGrid element found');
+            
+            // Use the same HTML structure as the main page
+            const html = products.map(product => `
+                <div class="tea-card" data-product-id="${product.id}">
+                    <div class="tea-image">
+                        ${product.image || '🍵'}
+                    </div>
+                    <h3 class="tea-title">${product.name}</h3>
+                    <p class="tea-description">${product.description}</p>
+                    <div class="product-meta">
+                        <span class="origin-tag">🌍 ${product.origin}</span>
+                        ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                        <span class="category-tag">${product.category} ${product.type || ''}</span>
+                    </div>
+                    <div class="wellness-tags">
+                        ${(product.benefits || ['Wellness']).map(benefit => 
+                            `<span class="wellness-tag">${benefit}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="price-display">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">${product.price.toFixed(2)}</span>
+                        <span class="price-unit">/oz</span>
+                    </div>
+                    <div class="tea-actions">
+                        <div class="tea-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', -1)">-</button>
+                            <input type="number" value="1" min="1" max="10" id="qty-${product.id}">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            log(`Generated HTML for ${products.length} products`);
+            teaGrid.innerHTML = html;
+            log('✅ Products rendered to DOM');
+        }
+        
+        async function loadAndRenderProducts() {
+            try {
+                log('Initializing Firebase...');
+                
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.firestore();
+                
+                log('Loading products from Firebase...');
+                const snapshot = await db.collection('products').get();
+                
+                if (snapshot.empty) {
+                    log('❌ No products found');
+                    return;
+                }
+                
+                const products = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    products.push({
+                        id: doc.id,
+                        name: data.name || 'Unknown Product',
+                        description: data.description || 'Premium organic tea',
+                        price: data.price || 25.00,
+                        origin: data.origin || 'Unknown',
+                        category: data.category || 'tea',
+                        type: data.type || '',
+                        organic: data.organic || true,
+                        benefits: data.benefits || ['Wellness', 'Balance'],
+                        image: data.image || '🍵'
+                    });
+                });
+                
+                log(`✅ Loaded ${products.length} products from Firebase`);
+                renderProducts(products);
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Helper functions for cart functionality
+        function updateQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (input) {
+                const newValue = Math.max(1, Math.min(10, parseInt(input.value) + change));
+                input.value = newValue;
+            }
+        }
+        
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-${productId}`);
+            const quantity = input ? parseInt(input.value) : 1;
+            
+            if (window.cartManager) {
+                window.cartManager.addToCart(productId, quantity);
+            }
+        }
+        
+        // Load products when page loads
+        window.addEventListener('load', loadAndRenderProducts);
+    </script>
+    
+    <!-- Cart Manager -->
+    <script src="js/cart-manager.js"></script>
+</body>
+</html> 

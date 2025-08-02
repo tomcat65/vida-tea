@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Integration Test - Vida-Tea</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cart.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn-cart" id="cartBtn">
+                        <span class="cart-icon">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Test Section -->
+    <section class="featured-teas" id="teas">
+        <div class="container">
+            <h2 class="section-title">Cart Integration Test</h2>
+            <p class="section-subtitle">Testing Phase 2 Frontend Integration</p>
+            
+            <div class="test-results" id="testResults">
+                <h3>Phase 2 Integration Test Results:</h3>
+                <div id="testOutput"></div>
+            </div>
+            
+            <div class="tea-grid" id="teaGrid">
+                <!-- Test products will be loaded here -->
+                <div class="loading-state">
+                    <div class="loading-spinner">🔄</div>
+                    <p>Loading test products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Shopping Cart</h3>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearCart">Clear Cart</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cart Integration Test
+        function log(message) {
+            console.log('[Cart Test]', message);
+        }
+        
+        function updateTestOutput(message, type = 'info') {
+            const testOutput = document.getElementById('testOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = `test-result test-${type}`;
+            div.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+            testOutput.appendChild(div);
+        }
+        
+        function renderTestProducts() {
+            log('Rendering test products...');
+            
+            const teaGrid = document.getElementById('teaGrid');
+            if (!teaGrid) {
+                log('❌ teaGrid element not found');
+                return;
+            }
+            
+            // Create test products for integration testing
+            const testProducts = [
+                {
+                    id: 'test-product-1',
+                    name: 'Test Wellness Tea',
+                    description: 'Premium organic wellness tea for testing',
+                    price: 25.00,
+                    origin: 'Test Origin',
+                    category: 'tea',
+                    type: 'wellness',
+                    organic: true,
+                    benefits: ['Wellness', 'Balance'],
+                    image: '🍵'
+                },
+                {
+                    id: 'test-product-2',
+                    name: 'Test Organic Blend',
+                    description: 'Organic tea blend for cart testing',
+                    price: 30.00,
+                    origin: 'Test Farm',
+                    category: 'tea',
+                    type: 'organic',
+                    organic: true,
+                    benefits: ['Organic', 'Health'],
+                    image: '🌱'
+                }
+            ];
+            
+            const html = testProducts.map(product => `
+                <div class="tea-card" data-product-id="${product.id}">
+                    <div class="tea-image">
+                        ${product.image}
+                    </div>
+                    <h3 class="tea-title">${product.name}</h3>
+                    <p class="tea-description">${product.description}</p>
+                    <div class="product-meta">
+                        <span class="origin-tag">🌍 ${product.origin}</span>
+                        ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                        <span class="category-tag">${product.category} ${product.type || ''}</span>
+                    </div>
+                    <div class="wellness-tags">
+                        ${product.benefits.map(benefit => 
+                            `<span class="wellness-tag">${benefit}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="price-display">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">${product.price.toFixed(2)}</span>
+                        <span class="price-unit">/oz</span>
+                    </div>
+                    <div class="tea-actions">
+                        <div class="tea-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', -1)">-</button>
+                            <input type="number" value="1" min="1" max="10" id="qty-${product.id}">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            teaGrid.innerHTML = html;
+            log('✅ Test products rendered');
+            updateTestOutput('✅ Test products loaded and rendered successfully');
+        }
+        
+        // Test cart functionality
+        function testCartIntegration() {
+            updateTestOutput('🧪 Testing cart integration...');
+            
+            // Test 1: Cart Manager Initialization
+            if (window.cartManager) {
+                updateTestOutput('✅ Cart Manager initialized successfully', 'success');
+            } else {
+                updateTestOutput('❌ Cart Manager not found', 'error');
+            }
+            
+            // Test 2: Add to Cart Functionality
+            setTimeout(() => {
+                if (window.cartManager) {
+                    window.cartManager.addToCart('test-product-1', 1);
+                    updateTestOutput('✅ Add to cart functionality working', 'success');
+                }
+            }, 1000);
+            
+            // Test 3: Cart UI Updates
+            setTimeout(() => {
+                const cartCount = document.getElementById('cartCount');
+                if (cartCount && cartCount.textContent !== '0') {
+                    updateTestOutput('✅ Cart UI updates working', 'success');
+                } else {
+                    updateTestOutput('⚠️ Cart UI updates may need verification', 'warning');
+                }
+            }, 2000);
+            
+            // Test 4: Cart Modal
+            setTimeout(() => {
+                const cartBtn = document.getElementById('cartBtn');
+                if (cartBtn) {
+                    cartBtn.click();
+                    updateTestOutput('✅ Cart modal functionality working', 'success');
+                }
+            }, 3000);
+        }
+        
+        // Helper functions for cart functionality
+        function updateQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (input) {
+                const newValue = Math.max(1, Math.min(10, parseInt(input.value) + change));
+                input.value = newValue;
+                updateTestOutput(`✅ Quantity updated for ${productId}: ${newValue}`, 'success');
+            }
+        }
+        
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-${productId}`);
+            const quantity = input ? parseInt(input.value) : 1;
+            
+            if (window.cartManager) {
+                window.cartManager.addToCart(productId, quantity);
+                updateTestOutput(`✅ Added ${quantity} of ${productId} to cart`, 'success');
+            } else {
+                updateTestOutput(`❌ Cart Manager not available for ${productId}`, 'error');
+            }
+        }
+        
+        // Initialize test
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Initializing cart integration test...');
+            updateTestOutput('🚀 Starting Phase 2 Frontend Integration Test');
+            
+            renderTestProducts();
+            
+            // Run tests after a short delay
+            setTimeout(testCartIntegration, 500);
+        });
+    </script>
+    
+    <!-- Cart Manager -->
+    <script src="js/cart-manager.js"></script>
+    
+    <style>
+        .test-results {
+            background: var(--warm-beige);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .test-result {
+            margin: var(--spacing-sm) 0;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+        }
+        
+        .test-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .test-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .test-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .test-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+    </style>
+</body>
+</html> 

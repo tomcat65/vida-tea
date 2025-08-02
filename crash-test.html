@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crash Test - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Crash Test - Vida-Tea</h1>
+    <div id="log" class="log">Testing...</div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+        
+        // Monitor for errors
+        window.addEventListener('error', (e) => {
+            log('❌ CRASH: ' + e.message + ' in ' + e.filename + ':' + e.lineno);
+        });
+        
+        log('Page loaded, starting individual script tests...');
+        
+        // Test each script individually
+        const scripts = [
+            'js/config-loader.js',
+            'js/dev-setup.js', 
+            'js/firebase-config.js',
+            'js/auth.js',
+            'js/products.js',
+            'js/products-database.js',
+            'js/main.js'
+        ];
+        
+        let currentScript = 0;
+        
+        function testNextScript() {
+            if (currentScript >= scripts.length) {
+                log('✅ All scripts tested successfully!');
+                return;
+            }
+            
+            const script = scripts[currentScript];
+            log(`Testing ${script}...`);
+            
+            const scriptEl = document.createElement('script');
+            scriptEl.src = script;
+            scriptEl.onload = () => {
+                log(`✅ ${script} loaded successfully`);
+                currentScript++;
+                setTimeout(testNextScript, 500);
+            };
+            scriptEl.onerror = () => {
+                log(`❌ ${script} failed to load`);
+                currentScript++;
+                setTimeout(testNextScript, 500);
+            };
+            
+            document.head.appendChild(scriptEl);
+        }
+        
+        // Start testing
+        setTimeout(testNextScript, 1000);
+    </script>
+</body>
+</html> 

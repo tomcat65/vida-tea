@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Vida-Tea 웰니스 - 삶을 위한 차 | 보편적 웰니스 차",
+    "description": "모든 사람을 위한 프리미엄 유기농 웰니스 차. 맞춤형 차 선물 세트, 웰니스 블렌드, 그리고 삶을 위한 차. Erika & Mercedes가 설립했습니다."
+  },
+  "navigation": {
+    "home": "홈",
+    "teas": "우리의 차",
+    "discovery": "차 발견",
+    "customArrangements": "맞춤형 세트",
+    "wellness": "웰니스",
+    "about": "소개",
+    "signIn": "로그인",
+    "cart": "장바구니"
+  },
+  "hero": {
+    "title": "삶을 위한 차",
+    "subtitle": "모든 사람, 모든 곳을 위한 프리미엄 유기농 웰니스 차. 모든 행사를 위한 맞춤형 선물 세트와 웰니스 블렌드.",
+    "startDiscovery": "차 발견 시작하기",
+    "exploreAll": "모든 차 탐색하기",
+    "customArrangements": "맞춤형 세트"
+  },
+  "discovery": {
+    "banner": {
+      "title": "차 컬렉션이 압도적이신가요?",
+      "subtitle": "우리의 지능형 발견 시스템이 당신의 웰니스 여정에 완벽한 차로 안내해드립니다",
+      "startJourney": "개인화된 발견 여정 시작하기"
+    },
+    "welcome": {
+      "title": "차 발견 여정에 오신 것을 환영합니다",
+      "subtitle": "웰니스와 문화적 선호도에 맞는 완벽한 차로 안내해드리겠습니다",
+      "wellnessPath": "웰니스 여정",
+      "wellnessDescription": "오늘 기분에 따라 차를 발견하세요",
+      "culturalPath": "문화 여정",
+      "culturalDescription": "다양한 문화 전통의 차를 탐색하세요",
+      "surprisePath": "놀라워해주세요",
+      "surpriseDescription": "당신을 위한 독특한 조합을 만들어드리겠습니다"
+    },
+    "wellness": {
+      "title": "오늘 기분이 어떠신가요?",
+      "balanced": "균형잡힌",
+      "balancedDesc": "조화와 집중을 찾는 중",
+      "relaxed": "편안한",
+      "relaxedDesc": "평온과 평화를 찾는 중",
+      "energized": "활력 넘치는",
+      "energizedDesc": "에너지와 활력이 필요함",
+      "immune": "면역 지원",
+      "immuneDesc": "웰니스 강화",
+      "sleep": "더 나은 수면",
+      "sleepDesc": "편안하고 평화로운"
+    },
+    "cultural": {
+      "title": "오늘 어떤 문화가 당신에게 말을 걸나요?",
+      "indian": "인도 전통",
+      "indianDesc": "풍부한 마살라 차이와 향신료",
+      "chinese": "중국 전통",
+      "chineseDesc": "고대 지혜와 섬세한 녹차",
+      "english": "영국 전통",
+      "englishDesc": "클래식 홍차와 오후의 의식",
+      "japanese": "일본 전통",
+      "japaneseDesc": "선 철학과 의식적 말차",
+      "middleEastern": "중동",
+      "middleEasternDesc": "향기로운 민트와 환대",
+      "latinAmerican": "라틴 아메리카",
+      "latinAmericanDesc": "활기찬 마테와 허브 전통",
+      "european": "유럽",
+      "europeanDesc": "허브 지혜와 카모마일",
+      "worldClass": "월드 클래스",
+      "worldClassDesc": "프리미엄 아티잔 선택"
+    },
+    "preferences": {
+      "title": "선호도에 대해 알려주세요",
+      "temperature": {
+        "label": "선호하는 온도",
+        "hot": "뜨거운",
+        "cold": "차가운",
+        "both": "둘 다"
+      },
+      "caffeine": {
+        "label": "카페인 선호도",
+        "caffeinated": "카페인 함유",
+        "decaf": "디카페인",
+        "low": "낮은 카페인"
+      },
+      "flavor": {
+        "label": "맛 선호도",
+        "sweet": "달콤한",
+        "spicy": "매운",
+        "herbal": "허브",
+        "fruity": "과일",
+        "earthy": "흙",
+        "floral": "꽃"
+      },
+      "time": {
+        "label": "즐기기 좋은 시간",
+        "morning": "아침",
+        "afternoon": "오후",
+        "evening": "저녁",
+        "anytime": "언제든"
+      }
+    },
+    "recommendations": {
+      "title": "개인화된 추천",
+      "subtitle": "발견 여정을 바탕으로",
+      "continueShopping": "쇼핑 계속하기",
+      "startNewDiscovery": "새로운 발견 시작하기"
+    }
+  },
+  "products": {
+    "title": "프리미엄 컬렉션",
+    "subtitle": "웰니스 여정을 위한 신중하게 선택된 유기농 차",
+    "addToCart": "장바구니에 추가",
+    "quantity": "수량",
+    "price": "가격",
+    "origin": "원산지",
+    "benefits": "효과",
+    "organic": "유기농",
+    "premium": "프리미엄"
+  },
+  "cart": {
+    "title": "차 장바구니",
+    "empty": "장바구니가 비어있습니다",
+    "emptySubtitle": "시작하려면 프리미엄 차를 추가하세요!",
+    "continueShopping": "쇼핑 계속하기",
+    "total": "총계",
+    "clearCart": "장바구니 비우기",
+    "proceedToCheckout": "결제 진행",
+    "recommendations": "발견 선호도를 바탕으로:",
+    "addToCart": "장바구니에 추가"
+  },
+  "checkout": {
+    "title": "결제",
+    "shippingInfo": "배송 정보",
+    "orderSummary": "주문 요약",
+    "paymentMethods": "결제 방법",
+    "placeOrder": "주문하기",
+    "continueShopping": "쇼핑 계속하기",
+    "discoveryBanner": {
+      "title": "완벽한 차를 찾는 데 도움이 필요하신가요?",
+      "subtitle": "우리의 발견 시스템이 당신의 선호도와 웰니스 목표에 맞는 차로 안내해드릴 수 있습니다",
+      "startDiscovery": "발견 여정 시작하기"
+    }
+  },
+  "customArrangements": {
+    "title": "맞춤형 차 선물 세트",
+    "subtitle": "특별한 행사를 위해 Erika & Mercedes가 수작업으로 만든 것들",
+    "weddings": "결혼식",
+    "weddingsDesc": "결혼식 파보르와 브라이덜 샤워를 위한 우아한 차 세트",
+    "barMitzvahs": "바르 미츠바",
+    "barMitzvahsDesc": "축하를 위한 전통적이고 현대적인 차 블렌드",
+    "corporateEvents": "기업 이벤트",
+    "corporateEventsDesc": "비즈니스 선물과 이벤트를 위한 전문적인 차 세트",
+    "birthdays": "생일",
+    "birthdaysDesc": "특별한 축하를 위한 개인화된 차 세트",
+    "features": {
+      "glassContainers": "유리 용기",
+      "glassContainersDesc": "품질 좋은 공급업체의 아름다운 유리 병과 플라스크",
+      "handcrafted": "수작업",
+      "handcraftedDesc": "Erika & Mercedes가 개인적으로 만든 각 세트",
+      "bulkDiscounts": "대량 할인",
+      "bulkDiscountsDesc": "대량 주문과 이벤트를 위한 특별 가격"
+    },
+    "startCustomOrder": "맞춤형 주문 시작하기",
+    "contactUs": "개인화된 세트를 위해 문의하세요"
+  },
+  "wellness": {
+    "title": "차를 통한 웰니스",
+    "subtitle": "프리미엄 유기농 차의 치유 특성을 발견하세요",
+    "balance": "균형",
+    "calm": "평온",
+    "energy": "에너지",
+    "immunity": "면역력",
+    "sleep": "수면",
+    "focus": "집중"
+  },
+  "about": {
+    "title": "Vida-Tea 소개",
+    "subtitle": "Erika & Mercedes가 설립",
+    "story": "우리의 이야기는 웰니스와 문화적 차 전통에 대한 열정으로 시작됩니다. 우리는 차가 단순한 음료가 아니라 발견, 웰니스, 문화적 연결의 여정이라고 믿습니다.",
+    "mission": "우리의 사명은 각 차를 독특하게 만드는 풍부한 문화 전통을 존중하면서 모든 사람, 모든 곳에 프리미엄 유기농 차를 제공하는 것입니다.",
+    "values": "우리는 진정성, 웰니스, 문화적 존중, 커뮤니티 연결을 가치로 여깁니다."
+  },
+  "footer": {
+    "tagline": "삶을 위한 차",
+    "foundedBy": "Erika & Mercedes가 설립",
+    "contact": "연락처",
+    "privacy": "개인정보 보호정책",
+    "terms": "서비스 약관"
+  },
+  "accessibility": {
+    "languageChanged": "언어가 {language}로 변경되었습니다",
+    "discoveryStarted": "발견 여정이 시작되었습니다",
+    "productAdded": "{product}이(가) 장바구니에 추가되었습니다",
+    "cartUpdated": "장바구니가 업데이트되었습니다"
+  },
+  "errors": {
+    "languageLoadFailed": "언어 로드에 실패했습니다",
+    "discoveryIncomplete": "발견 선호도를 완료해주세요",
+    "cartEmpty": "장바구니가 비어있습니다"
+  }
+} 

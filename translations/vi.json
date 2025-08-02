@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Vida-Tea Sức Khỏe - Trà cho Cuộc Sống | Trà Sức Khỏe Toàn Cầu",
+    "description": "Trà sức khỏe hữu cơ cao cấp cho mọi người. Bộ trà tặng tùy chỉnh, hỗn hợp sức khỏe và trà cho cuộc sống. Được thành lập bởi Erika & Mercedes."
+  },
+  "navigation": {
+    "home": "Trang Chủ",
+    "teas": "Trà Của Chúng Tôi",
+    "discovery": "Khám Phá Trà",
+    "customArrangements": "Bộ Tùy Chỉnh",
+    "wellness": "Sức Khỏe",
+    "about": "Về Chúng Tôi",
+    "signIn": "Đăng Nhập",
+    "cart": "Giỏ Hàng"
+  },
+  "hero": {
+    "title": "Trà cho Cuộc Sống",
+    "subtitle": "Trà sức khỏe hữu cơ cao cấp cho mọi người, mọi nơi. Bộ tặng tùy chỉnh và hỗn hợp sức khỏe cho mọi dịp.",
+    "startDiscovery": "Bắt Đầu Khám Phá Trà",
+    "exploreAll": "Khám Phá Tất Cả Trà",
+    "customArrangements": "Bộ Tùy Chỉnh"
+  },
+  "discovery": {
+    "banner": {
+      "title": "Bị choáng ngợp bởi bộ sưu tập trà của chúng tôi?",
+      "subtitle": "Hãy để hệ thống khám phá thông minh của chúng tôi hướng dẫn bạn đến trà hoàn hảo cho hành trình sức khỏe",
+      "startJourney": "Bắt Đầu Hành Trình Khám Phá Cá Nhân"
+    },
+    "welcome": {
+      "title": "Chào Mừng Đến Hành Trình Khám Phá Trà",
+      "subtitle": "Hãy để chúng tôi hướng dẫn bạn đến trà hoàn hảo cho sở thích sức khỏe và văn hóa",
+      "wellnessPath": "Hành Trình Sức Khỏe",
+      "wellnessDescription": "Khám phá trà dựa trên cảm giác hôm nay",
+      "culturalPath": "Hành Trình Văn Hóa",
+      "culturalDescription": "Khám phá trà từ các truyền thống văn hóa khác nhau",
+      "surprisePath": "Làm Tôi Ngạc Nhiên",
+      "surpriseDescription": "Hãy để chúng tôi tạo ra sự kết hợp độc đáo cho bạn"
+    },
+    "wellness": {
+      "title": "Hôm nay bạn cảm thấy thế nào?",
+      "balanced": "Cân Bằng",
+      "balancedDesc": "Tìm kiếm sự hài hòa và tập trung",
+      "relaxed": "Thư Giãn",
+      "relaxedDesc": "Tìm kiếm sự bình yên và thanh thản",
+      "energized": "Tràn Đầy Năng Lượng",
+      "energizedDesc": "Cần năng lượng và sức sống",
+      "immune": "Hỗ Trợ Miễn Dịch",
+      "immuneDesc": "Tăng cường sức khỏe",
+      "sleep": "Giấc Ngủ Tốt Hơn",
+      "sleepDesc": "Nghỉ ngơi và bình yên"
+    },
+    "cultural": {
+      "title": "Văn hóa nào nói với bạn hôm nay?",
+      "indian": "Truyền Thống Ấn Độ",
+      "indianDesc": "Chai masala phong phú và gia vị thơm",
+      "chinese": "Truyền Thống Trung Quốc",
+      "chineseDesc": "Trí tuệ cổ xưa và trà xanh tinh tế",
+      "english": "Truyền Thống Anh",
+      "englishDesc": "Trà đen cổ điển và nghi lễ buổi chiều",
+      "japanese": "Truyền Thống Nhật Bản",
+      "japaneseDesc": "Triết lý thiền và matcha nghi lễ",
+      "middleEastern": "Trung Đông",
+      "middleEasternDesc": "Bạc hà thơm và lòng hiếu khách",
+      "latinAmerican": "Mỹ Latin",
+      "latinAmericanDesc": "Mate sôi động và truyền thống thảo mộc",
+      "european": "Châu Âu",
+      "europeanDesc": "Trí tuệ thảo mộc và hoa cúc",
+      "worldClass": "Đẳng Cấp Thế Giới",
+      "worldClassDesc": "Lựa chọn thủ công cao cấp"
+    },
+    "preferences": {
+      "title": "Hãy cho chúng tôi biết về sở thích của bạn",
+      "temperature": {
+        "label": "Nhiệt độ ưa thích",
+        "hot": "Nóng",
+        "cold": "Lạnh",
+        "both": "Cả hai"
+      },
+      "caffeine": {
+        "label": "Sở thích caffeine",
+        "caffeinated": "Có caffeine",
+        "decaf": "Không caffeine",
+        "low": "Ít caffeine"
+      },
+      "flavor": {
+        "label": "Sở thích hương vị",
+        "sweet": "Ngọt",
+        "spicy": "Cay",
+        "herbal": "Thảo mộc",
+        "fruity": "Trái cây",
+        "earthy": "Đất",
+        "floral": "Hoa"
+      },
+      "time": {
+        "label": "Thời gian tốt nhất để thưởng thức",
+        "morning": "Buổi sáng",
+        "afternoon": "Buổi chiều",
+        "evening": "Buổi tối",
+        "anytime": "Bất cứ lúc nào"
+      }
+    },
+    "recommendations": {
+      "title": "Đề Xuất Cá Nhân Của Bạn",
+      "subtitle": "Dựa trên hành trình khám phá",
+      "continueShopping": "Tiếp Tục Mua Sắm",
+      "startNewDiscovery": "Bắt Đầu Khám Phá Mới"
+    }
+  },
+  "products": {
+    "title": "Bộ Sưu Tập Cao Cấp",
+    "subtitle": "Trà hữu cơ được chọn lọc cẩn thận cho hành trình sức khỏe",
+    "addToCart": "Thêm Vào Giỏ",
+    "quantity": "Số Lượng",
+    "price": "Giá",
+    "origin": "Xuất Xứ",
+    "benefits": "Lợi Ích",
+    "organic": "Hữu Cơ",
+    "premium": "Cao Cấp"
+  },
+  "cart": {
+    "title": "Giỏ Trà Của Bạn",
+    "empty": "Giỏ hàng của bạn trống",
+    "emptySubtitle": "Thêm một số trà cao cấp để bắt đầu!",
+    "continueShopping": "Tiếp Tục Mua Sắm",
+    "total": "Tổng Cộng",
+    "clearCart": "Xóa Giỏ Hàng",
+    "proceedToCheckout": "Tiến Hành Thanh Toán",
+    "recommendations": "Dựa trên sở thích khám phá:",
+    "addToCart": "Thêm Vào Giỏ"
+  },
+  "checkout": {
+    "title": "Thanh Toán",
+    "shippingInfo": "Thông Tin Giao Hàng",
+    "orderSummary": "Tóm Tắt Đơn Hàng",
+    "paymentMethods": "Phương Thức Thanh Toán",
+    "placeOrder": "Đặt Hàng",
+    "continueShopping": "Tiếp Tục Mua Sắm",
+    "discoveryBanner": {
+      "title": "Cần giúp tìm trà hoàn hảo?",
+      "subtitle": "Hệ thống khám phá của chúng tôi có thể hướng dẫn bạn đến trà phù hợp với sở thích và mục tiêu sức khỏe",
+      "startDiscovery": "Bắt Đầu Hành Trình Khám Phá"
+    }
+  },
+  "customArrangements": {
+    "title": "Bộ Trà Tặng Tùy Chỉnh",
+    "subtitle": "Được làm thủ công bởi Erika & Mercedes cho những dịp đặc biệt",
+    "weddings": "Đám Cưới",
+    "weddingsDesc": "Bộ trà thanh lịch cho quà cưới và tiệc cô dâu",
+    "barMitzvahs": "Bar Mitzvahs",
+    "barMitzvahsDesc": "Hỗn hợp truyền thống và hiện đại cho lễ kỷ niệm",
+    "corporateEvents": "Sự Kiện Doanh Nghiệp",
+    "corporateEventsDesc": "Bộ trà chuyên nghiệp cho quà tặng và sự kiện kinh doanh",
+    "birthdays": "Sinh Nhật",
+    "birthdaysDesc": "Bộ trà tùy chỉnh cho lễ kỷ niệm đặc biệt",
+    "features": {
+      "glassContainers": "Hộp Đựng Thủy Tinh",
+      "glassContainersDesc": "Lọ và bình thủy tinh đẹp từ nhà cung cấp chất lượng",
+      "handcrafted": "Làm Thủ Công",
+      "handcraftedDesc": "Mỗi bộ được tạo ra cá nhân bởi Erika & Mercedes",
+      "bulkDiscounts": "Giảm Giá Số Lượng Lớn",
+      "bulkDiscountsDesc": "Giá đặc biệt cho đơn hàng lớn và sự kiện"
+    },
+    "startCustomOrder": "Bắt Đầu Đặt Hàng Tùy Chỉnh",
+    "contactUs": "Liên hệ chúng tôi để bộ tùy chỉnh"
+  },
+  "wellness": {
+    "title": "Sức Khỏe Qua Trà",
+    "subtitle": "Khám phá đặc tính chữa bệnh của trà hữu cơ cao cấp",
+    "balance": "Cân Bằng",
+    "calm": "Bình Yên",
+    "energy": "Năng Lượng",
+    "immunity": "Miễn Dịch",
+    "sleep": "Giấc Ngủ",
+    "focus": "Tập Trung"
+  },
+  "about": {
+    "title": "Về Vida-Tea",
+    "subtitle": "Được thành lập bởi Erika & Mercedes",
+    "story": "Câu chuyện của chúng tôi bắt đầu với niềm đam mê sức khỏe và truyền thống văn hóa trà. Chúng tôi tin rằng trà không chỉ là đồ uống - đó là hành trình khám phá, sức khỏe và kết nối văn hóa.",
+    "mission": "Sứ mệnh của chúng tôi là mang trà hữu cơ cao cấp đến mọi người, mọi nơi, đồng thời tôn trọng những truyền thống văn hóa phong phú làm cho mỗi loại trà trở nên độc đáo.",
+    "values": "Chúng tôi coi trọng tính chân thực, sức khỏe, sự tôn trọng văn hóa và kết nối cộng đồng."
+  },
+  "footer": {
+    "tagline": "Trà cho Cuộc Sống",
+    "foundedBy": "Được thành lập bởi Erika & Mercedes",
+    "contact": "Liên Hệ",
+    "privacy": "Chính Sách Bảo Mật",
+    "terms": "Điều Khoản Dịch Vụ"
+  },
+  "accessibility": {
+    "languageChanged": "Ngôn ngữ đã thay đổi thành {language}",
+    "discoveryStarted": "Hành trình khám phá đã bắt đầu",
+    "productAdded": "{product} đã được thêm vào giỏ hàng",
+    "cartUpdated": "Giỏ hàng đã được cập nhật"
+  },
+  "errors": {
+    "languageLoadFailed": "Không thể tải ngôn ngữ",
+    "discoveryIncomplete": "Vui lòng hoàn thành sở thích khám phá",
+    "cartEmpty": "Giỏ hàng của bạn trống"
+  }
+} 

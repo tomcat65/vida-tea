@@ -15,11 +15,16 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="css/cultural-i18n.css">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Multilingual System -->
+    <script src="js/vida-tea-i18n.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -34,12 +39,48 @@
                 <ul class="nav-menu">
                     <li><a href="#home" class="nav-link">Home</a></li>
                     <li><a href="#teas" class="nav-link">Our Teas</a></li>
+                    <li><a href="discovery.html" class="nav-link">Tea Discovery</a></li>
                     <li><a href="#custom-arrangements" class="nav-link">Custom Arrangements</a></li>
                     <li><a href="#wellness" class="nav-link">Wellness</a></li>
                     <li><a href="#about" class="nav-link">About</a></li>
                 </ul>
                 
                 <div class="nav-actions">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher" id="languageSwitcher">
+                        <button class="language-btn" id="languageBtn">
+                            <span class="language-flag" id="currentFlag">🇺🇸</span>
+                            <span class="language-name" id="currentLanguage">English</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" data-lang="en">
+                                <span class="language-flag">🇺🇸</span>
+                                <span class="language-name">English</span>
+                            </div>
+                            <div class="language-option" data-lang="es">
+                                <span class="language-flag">🇪🇸</span>
+                                <span class="language-name">Español</span>
+                            </div>
+                            <div class="language-option" data-lang="ko">
+                                <span class="language-flag">🇰🇷</span>
+                                <span class="language-name">한국어</span>
+                            </div>
+                            <div class="language-option" data-lang="vi">
+                                <span class="language-flag">🇻🇳</span>
+                                <span class="language-name">Tiếng Việt</span>
+                            </div>
+                            <div class="language-option" data-lang="zh">
+                                <span class="language-flag">🇨🇳</span>
+                                <span class="language-name">中文</span>
+                            </div>
+                            <div class="language-option" data-lang="hi">
+                                <span class="language-flag">🇮🇳</span>
+                                <span class="language-name">हिन्दी</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button class="btn-cart" id="cartBtn">
                         <span class="cart-icon">🛒</span>
                         <span class="cart-count" id="cartCount">0</span>
@@ -56,10 +97,13 @@
             <div class="hero-content">
                 <h1 class="hero-title">Tea for Life</h1>
                 <p class="hero-subtitle">Premium organic wellness teas for everyone, everywhere. Custom gift arrangements and wellness blends for all occasions.</p>
-                <div class="hero-actions">
-                    <button class="btn-primary" id="exploreBtn">Explore Our Collection</button>
-                    <button class="btn-secondary" id="customArrangementsBtn">Custom Arrangements</button>
-                </div>
+                            <div class="hero-actions">
+                <a href="discovery.html" class="btn-primary btn-discovery" style="font-size: 1.2rem; padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3); transform: scale(1.05);">
+                    🎯 Start Your Tea Discovery Journey
+                </a>
+                <button class="btn-secondary" id="exploreBtn">Explore All Teas</button>
+                <button class="btn-secondary" id="customArrangementsBtn">Custom Arrangements</button>
+            </div>
             </div>
             <div class="hero-image">
                 <div class="tea-visual">
@@ -73,6 +117,14 @@
     <!-- Featured Teas -->
     <section class="featured-teas" id="teas">
         <div class="container">
+            <div class="discovery-banner" style="background: linear-gradient(135deg, var(--warm-beige), #f8f6f0); padding: var(--spacing-xl); border-radius: var(--radius-lg); margin-bottom: var(--spacing-xl); text-align: center; border: 2px solid var(--primary-green); box-shadow: 0 8px 25px rgba(34, 139, 34, 0.1);">
+                <h3 style="color: var(--primary-green); margin-bottom: var(--spacing-sm); font-size: 1.8rem;">🎯 Overwhelmed by our tea collection?</h3>
+                <p style="color: var(--accent-green); margin-bottom: var(--spacing-lg); font-size: 1.1rem;">Let our intelligent discovery system guide you to the perfect tea for your wellness journey</p>
+                <a href="discovery.html" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: var(--spacing-md) var(--spacing-xl); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);">
+                    🚀 Start Your Personalized Discovery Journey
+                </a>
+            </div>
+            
             <h2 class="section-title">Our Premium Collection</h2>
             <p class="section-subtitle">Carefully selected organic teas for your wellness journey</p>
             
@@ -297,10 +349,355 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/products.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        // Simple working product loading logic (from css-test.html)
+        function log(message) {
+            console.log('[Vida-Tea]', message);
+        }
+        
+        function renderProducts(products) {
+            log(`Rendering ${products.length} products...`);
+            
+            const teaGrid = document.getElementById('teaGrid');
+            if (!teaGrid) {
+                log('❌ teaGrid element not found');
+                return;
+            }
+            
+            log('✅ teaGrid element found');
+            
+            // Use the same HTML structure as the main page
+            const html = products.map(product => `
+                <div class="tea-card" data-product-id="${product.id}">
+                    <div class="tea-image">
+                        ${product.image || '🍵'}
+                    </div>
+                    <h3 class="tea-title">${product.name}</h3>
+                    <p class="tea-description">${product.description}</p>
+                    <div class="product-meta">
+                        <span class="origin-tag">🌍 ${product.origin}</span>
+                        ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                        <span class="category-tag">${product.category} ${product.type || ''}</span>
+                    </div>
+                    <div class="wellness-tags">
+                        ${(product.benefits || ['Wellness']).map(benefit => 
+                            `<span class="wellness-tag">${benefit}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="price-display">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">${product.price.toFixed(2)}</span>
+                        <span class="price-unit">/oz</span>
+                    </div>
+                    <div class="tea-actions">
+                        <div class="tea-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', -1)">-</button>
+                            <input type="number" value="1" min="1" max="10" id="qty-${product.id}">
+                            <button class="quantity-btn" onclick="updateQuantity('${product.id}', 1)">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            log(`Generated HTML for ${products.length} products`);
+            teaGrid.innerHTML = html;
+            log('✅ Products rendered to DOM');
+        }
+        
+        async function loadAndRenderProducts(applyDiscoveryFilter = false) {
+            try {
+                log('Initializing Firebase...');
+                
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.firestore();
+                
+                log('Loading products from Firebase...');
+                const snapshot = await db.collection('products').get();
+                
+                if (snapshot.empty) {
+                    log('❌ No products found');
+                    return;
+                }
+                
+                const products = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    products.push({
+                        id: doc.id,
+                        name: data.name || 'Unknown Product',
+                        description: data.description || 'Premium organic tea',
+                        price: data.price || 25.00,
+                        origin: data.origin || 'Unknown',
+                        category: data.category || 'tea',
+                        type: data.type || '',
+                        organic: data.organic || true,
+                        benefits: data.benefits || ['Wellness', 'Balance'],
+                        image: data.image || '🍵'
+                    });
+                });
+                
+                log(`✅ Loaded ${products.length} products from Firebase`);
+                
+                // Apply discovery filtering if requested
+                if (applyDiscoveryFilter && window.cartManager) {
+                    const filteredProducts = window.cartManager.filterProductsByDiscovery(products);
+                    if (filteredProducts.length > 0) {
+                        log(`🎯 Applied discovery filter: ${filteredProducts.length} recommended products`);
+                        renderProducts(filteredProducts);
+                        
+                        // Show discovery filter banner
+                        showDiscoveryFilterBanner();
+                        return;
+                    }
+                }
+                
+                renderProducts(products);
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Load products when page loads
+        window.addEventListener('load', loadAndRenderProducts);
+        
+        // Add discovery-based filtering
+        function applyDiscoveryFilter() {
+            if (window.cartManager && window.cartManager.discoveryPreferences) {
+                const preferences = window.cartManager.discoveryPreferences;
+                if (Object.keys(preferences).length > 0) {
+                    // Show filtered products based on discovery preferences
+                    loadAndRenderProducts(true); // true = apply discovery filter
+                }
+            }
+        }
+        
+        // Check for discovery preferences on page load
+        window.addEventListener('load', () => {
+            setTimeout(applyDiscoveryFilter, 1000);
+        });
+        
+        // Add cart functionality to product cards
+        function addCartFunctionality() {
+            // Add click handlers to "Add to Cart" buttons
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('add-to-cart-btn')) {
+                    const productCard = e.target.closest('.tea-card');
+                    if (productCard) {
+                        const productId = productCard.dataset.productId;
+                        const quantityInput = productCard.querySelector('input[type="number"]');
+                        const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+                        
+                        if (window.cartManager) {
+                            window.cartManager.addToCart(productId, quantity);
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize cart functionality after products load
+        window.addEventListener('load', () => {
+            setTimeout(addCartFunctionality, 1000);
+        });
+        
+        // Helper functions for cart functionality
+        function updateQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            if (input) {
+                const newValue = Math.max(1, Math.min(10, parseInt(input.value) + change));
+                input.value = newValue;
+            }
+        }
+        
+        function addToCart(productId) {
+            const input = document.getElementById(`qty-${productId}`);
+            const quantity = input ? parseInt(input.value) : 1;
+            
+            if (window.cartManager) {
+                window.cartManager.addToCart(productId, quantity);
+            }
+        }
+        
+        // Show discovery filter banner
+        function showDiscoveryFilterBanner() {
+            const teaGrid = document.getElementById('teaGrid');
+            if (teaGrid) {
+                const banner = document.createElement('div');
+                banner.className = 'discovery-filter-banner';
+                banner.style.cssText = `
+                    background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+                    color: white;
+                    padding: var(--spacing-md);
+                    border-radius: var(--radius-lg);
+                    margin-bottom: var(--spacing-lg);
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
+                `;
+                banner.innerHTML = `
+                    <h3 style="margin-bottom: var(--spacing-sm);">🎯 Showing personalized recommendations</h3>
+                    <p style="margin-bottom: var(--spacing-md);">Based on your discovery preferences</p>
+                    <button onclick="clearDiscoveryFilter()" style="background: white; color: var(--primary-green); border: none; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); cursor: pointer; font-weight: 600;">
+                        Show All Teas
+                    </button>
+                `;
+                teaGrid.parentNode.insertBefore(banner, teaGrid);
+            }
+        }
+        
+        // Clear discovery filter
+        function clearDiscoveryFilter() {
+            if (window.cartManager) {
+                window.cartManager.saveDiscoveryPreferences({});
+            }
+            loadAndRenderProducts(false);
+            
+            // Remove banner
+            const banner = document.querySelector('.discovery-filter-banner');
+            if (banner) {
+                banner.remove();
+            }
+        }
+    </script>
+    
+    <!-- Floating Discovery Button -->
+    <div class="floating-discovery-btn" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
+        <a href="discovery.html" class="btn-primary" style="display: flex; align-items: center; padding: var(--spacing-md) var(--spacing-lg); background: linear-gradient(135deg, var(--primary-green), var(--accent-green)); box-shadow: 0 8px 25px rgba(34, 139, 34, 0.3); border-radius: 50px; color: white; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; transform: scale(1);">
+            🎯 Tea Discovery
+            <span style="margin-left: var(--spacing-sm); font-size: 0.9rem;">→</span>
+        </a>
+    </div>
+
+    <!-- Cart Manager -->
+    <script src="js/cart-manager.js"></script>
+    
+    <!-- Multilingual Initialization -->
+    <script>
+        // Initialize multilingual system
+        let i18n;
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize VidaTeaI18n
+            i18n = new VidaTeaI18n();
+            
+            // Wait for i18n to be ready
+            await new Promise(resolve => {
+                const checkReady = () => {
+                    if (i18n && i18n.currentLanguage) {
+                        resolve();
+                    } else {
+                        setTimeout(checkReady, 100);
+                    }
+                };
+                checkReady();
+            });
+            
+            // Initialize language switcher
+            initializeLanguageSwitcher();
+            
+            // Add data-i18n attributes to translatable elements
+            addTranslationAttributes();
+            
+            console.log('Multilingual system initialized with language:', i18n.currentLanguage);
+        });
+        
+        function initializeLanguageSwitcher() {
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLanguage = document.getElementById('currentLanguage');
+            
+            // Toggle dropdown
+            languageBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('show');
+            });
+            
+            // Handle language selection
+            languageDropdown.addEventListener('click', (e) => {
+                const option = e.target.closest('.language-option');
+                if (option) {
+                    const langCode = option.dataset.lang;
+                    switchLanguage(langCode);
+                    languageDropdown.classList.remove('show');
+                }
+            });
+            
+            // Update current language display
+            updateLanguageDisplay();
+        }
+        
+        function updateLanguageDisplay() {
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLanguage = document.getElementById('currentLanguage');
+            const config = i18n.getLanguageConfig(i18n.currentLanguage);
+            
+            if (currentFlag && currentLanguage) {
+                const flagMap = {
+                    'en': '🇺🇸',
+                    'es': '🇪🇸',
+                    'ko': '🇰🇷',
+                    'vi': '🇻🇳',
+                    'zh': '🇨🇳',
+                    'hi': '🇮🇳'
+                };
+                
+                currentFlag.textContent = flagMap[i18n.currentLanguage] || '🇺🇸';
+                currentLanguage.textContent = config.name;
+            }
+        }
+        
+        function switchLanguage(langCode) {
+            if (i18n) {
+                i18n.switchLanguage(langCode).then(() => {
+                    updateLanguageDisplay();
+                    console.log('Language switched to:', langCode);
+                });
+            }
+        }
+        
+        function addTranslationAttributes() {
+            // Add data-i18n attributes to key elements
+            const elements = [
+                { selector: '.hero-title', key: 'hero.title' },
+                { selector: '.hero-subtitle', key: 'hero.subtitle' },
+                { selector: '.section-title', key: 'sections.teas.title' },
+                { selector: '.section-subtitle', key: 'sections.teas.subtitle' },
+                { selector: '#exploreBtn', key: 'buttons.explore' },
+                { selector: '#customArrangementsBtn', key: 'buttons.customArrangements' },
+                { selector: '.btn-discovery', key: 'buttons.discovery' },
+                { selector: '.nav-link[href="#home"]', key: 'navigation.home' },
+                { selector: '.nav-link[href="#teas"]', key: 'navigation.teas' },
+                { selector: '.nav-link[href="#custom-arrangements"]', key: 'navigation.customArrangements' },
+                { selector: '.nav-link[href="#wellness"]', key: 'navigation.wellness' },
+                { selector: '.nav-link[href="#about"]', key: 'navigation.about' },
+                { selector: '#authBtn', key: 'buttons.signIn' }
+            ];
+            
+            elements.forEach(({ selector, key }) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    element.setAttribute('data-i18n', key);
+                }
+            });
+        }
+    </script>
 </body>
 </html> 

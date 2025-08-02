@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Vida-Tea Bienestar - Té para la Vida | Tés de Bienestar Universal",
+    "description": "Tés orgánicos premium de bienestar para todos. Arreglos personalizados de té, mezclas de bienestar y té para la vida. Fundado por Erika & Mercedes."
+  },
+  "navigation": {
+    "home": "Inicio",
+    "teas": "Nuestros Tés",
+    "discovery": "Descubrimiento de Té",
+    "customArrangements": "Arreglos Personalizados",
+    "wellness": "Bienestar",
+    "about": "Acerca de",
+    "signIn": "Iniciar Sesión",
+    "cart": "Carrito"
+  },
+  "hero": {
+    "title": "Té para la Vida",
+    "subtitle": "Tés orgánicos premium de bienestar para todos, en todas partes. Arreglos personalizados de regalos y mezclas de bienestar para todas las ocasiones.",
+    "startDiscovery": "Inicia Tu Descubrimiento de Té",
+    "exploreAll": "Explorar Todos los Tés",
+    "customArrangements": "Arreglos Personalizados"
+  },
+  "discovery": {
+    "banner": {
+      "title": "¿Te sientes abrumado por nuestra colección de tés?",
+      "subtitle": "Deja que nuestro sistema inteligente de descubrimiento te guíe hacia el té perfecto para tu viaje de bienestar",
+      "startJourney": "Inicia Tu Viaje Personalizado de Descubrimiento"
+    },
+    "welcome": {
+      "title": "Bienvenido a Tu Viaje de Descubrimiento de Té",
+      "subtitle": "Permítenos guiarte hacia el té perfecto para tus preferencias de bienestar y culturales",
+      "wellnessPath": "Viaje de Bienestar",
+      "wellnessDescription": "Descubre tés basados en cómo te sientes hoy",
+      "culturalPath": "Viaje Cultural",
+      "culturalDescription": "Explora tés de diferentes tradiciones culturales",
+      "surprisePath": "Sorpréndeme",
+      "surpriseDescription": "Déjanos crear una combinación única para ti"
+    },
+    "wellness": {
+      "title": "¿Cómo te sientes hoy?",
+      "balanced": "Equilibrado",
+      "balancedDesc": "Buscando armonía y enfoque",
+      "relaxed": "Relajado",
+      "relaxedDesc": "Buscando calma y paz",
+      "energized": "Energizado",
+      "energizedDesc": "Necesitas energía y vitalidad",
+      "immune": "Apoyo Inmunológico",
+      "immuneDesc": "Fortalecimiento del bienestar",
+      "sleep": "Mejor Sueño",
+      "sleepDesc": "Reposo y paz"
+    },
+    "cultural": {
+      "title": "¿Qué cultura te habla hoy?",
+      "indian": "Tradición India",
+      "indianDesc": "Rico chai masala y especias aromáticas",
+      "chinese": "Tradición China",
+      "chineseDesc": "Sabiduría antigua y delicados tés verdes",
+      "english": "Tradición Inglesa",
+      "englishDesc": "Tés negros clásicos y rituales de tarde",
+      "japanese": "Tradición Japonesa",
+      "japaneseDesc": "Filosofía zen y matcha ceremonial",
+      "middleEastern": "Medio Oriente",
+      "middleEasternDesc": "Menta aromática y hospitalidad",
+      "latinAmerican": "Latinoamericana",
+      "latinAmericanDesc": "Mate vibrante y tradiciones herbales",
+      "european": "Europea",
+      "europeanDesc": "Sabiduría herbal y manzanilla",
+      "worldClass": "Clase Mundial",
+      "worldClassDesc": "Selecciones artesanales premium"
+    },
+    "preferences": {
+      "title": "Cuéntanos sobre tus preferencias",
+      "temperature": {
+        "label": "Temperatura preferida",
+        "hot": "Caliente",
+        "cold": "Frío",
+        "both": "Ambos"
+      },
+      "caffeine": {
+        "label": "Preferencia de cafeína",
+        "caffeinated": "Con cafeína",
+        "decaf": "Descafeinado",
+        "low": "Baja cafeína"
+      },
+      "flavor": {
+        "label": "Preferencia de sabor",
+        "sweet": "Dulce",
+        "spicy": "Picante",
+        "herbal": "Herbal",
+        "fruity": "Frutal",
+        "earthy": "Terroso",
+        "floral": "Floral"
+      },
+      "time": {
+        "label": "Mejor momento para disfrutar",
+        "morning": "Mañana",
+        "afternoon": "Tarde",
+        "evening": "Noche",
+        "anytime": "Cualquier momento"
+      }
+    },
+    "recommendations": {
+      "title": "Tus Recomendaciones Personalizadas",
+      "subtitle": "Basadas en tu viaje de descubrimiento",
+      "continueShopping": "Continuar Comprando",
+      "startNewDiscovery": "Iniciar Nuevo Descubrimiento"
+    }
+  },
+  "products": {
+    "title": "Nuestra Colección Premium",
+    "subtitle": "Tés orgánicos cuidadosamente seleccionados para tu viaje de bienestar",
+    "addToCart": "Agregar al Carrito",
+    "quantity": "Cantidad",
+    "price": "Precio",
+    "origin": "Origen",
+    "benefits": "Beneficios",
+    "organic": "Orgánico",
+    "premium": "Premium"
+  },
+  "cart": {
+    "title": "Tu Carrito de Té",
+    "empty": "Tu carrito está vacío",
+    "emptySubtitle": "¡Agrega algunos tés premium para comenzar!",
+    "continueShopping": "Continuar Comprando",
+    "total": "Total",
+    "clearCart": "Vaciar Carrito",
+    "proceedToCheckout": "Proceder al Pago",
+    "recommendations": "Basado en tus preferencias de descubrimiento:",
+    "addToCart": "Agregar al Carrito"
+  },
+  "checkout": {
+    "title": "Pago",
+    "shippingInfo": "Información de Envío",
+    "orderSummary": "Resumen del Pedido",
+    "paymentMethods": "Métodos de Pago",
+    "placeOrder": "Realizar Pedido",
+    "continueShopping": "Continuar Comprando",
+    "discoveryBanner": {
+      "title": "¿Necesitas ayuda para encontrar el té perfecto?",
+      "subtitle": "Nuestro sistema de descubrimiento puede guiarte hacia tés que coincidan con tus preferencias y objetivos de bienestar",
+      "startDiscovery": "Iniciar Viaje de Descubrimiento"
+    }
+  },
+  "customArrangements": {
+    "title": "Arreglos Personalizados de Té",
+    "subtitle": "Creados a mano por Erika & Mercedes para tus ocasiones especiales",
+    "weddings": "Bodas",
+    "weddingsDesc": "Elegantes arreglos de té para favores de boda y despedidas de soltera",
+    "barMitzvahs": "Bar Mitzvahs",
+    "barMitzvahsDesc": "Mezclas tradicionales y modernas para celebraciones",
+    "corporateEvents": "Eventos Corporativos",
+    "corporateEventsDesc": "Arreglos profesionales de té para regalos empresariales y eventos",
+    "birthdays": "Cumpleaños",
+    "birthdaysDesc": "Arreglos personalizados de té para celebraciones especiales",
+    "features": {
+      "glassContainers": "Contenedores de Vidrio",
+      "glassContainersDesc": "Hermosos frascos y matraces de vidrio de proveedores de calidad",
+      "handcrafted": "Hecho a Mano",
+      "handcraftedDesc": "Cada arreglo creado personalmente por Erika & Mercedes",
+      "bulkDiscounts": "Descuentos por Volumen",
+      "bulkDiscountsDesc": "Precios especiales para pedidos grandes y eventos"
+    },
+    "startCustomOrder": "Iniciar Pedido Personalizado",
+    "contactUs": "Contáctanos para arreglos personalizados"
+  },
+  "wellness": {
+    "title": "Bienestar a Través del Té",
+    "subtitle": "Descubre las propiedades curativas de los tés orgánicos premium",
+    "balance": "Equilibrio",
+    "calm": "Calma",
+    "energy": "Energía",
+    "immunity": "Inmunidad",
+    "sleep": "Sueño",
+    "focus": "Enfoque"
+  },
+  "about": {
+    "title": "Acerca de Vida-Tea",
+    "subtitle": "Fundado por Erika & Mercedes",
+    "story": "Nuestra historia comienza con una pasión por el bienestar y las tradiciones culturales del té. Creemos que el té es más que solo una bebida - es un viaje de descubrimiento, bienestar y conexión cultural.",
+    "mission": "Nuestra misión es llevar tés orgánicos premium a todos, en todas partes, mientras honramos las ricas tradiciones culturales que hacen único cada té.",
+    "values": "Valoramos la autenticidad, el bienestar, el respeto cultural y la conexión comunitaria."
+  },
+  "footer": {
+    "tagline": "Té para la Vida",
+    "foundedBy": "Fundado por Erika & Mercedes",
+    "contact": "Contacto",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio"
+  },
+  "accessibility": {
+    "languageChanged": "Idioma cambiado a {language}",
+    "discoveryStarted": "Viaje de descubrimiento iniciado",
+    "productAdded": "{product} agregado al carrito",
+    "cartUpdated": "Carrito actualizado"
+  },
+  "errors": {
+    "languageLoadFailed": "Error al cargar el idioma",
+    "discoveryIncomplete": "Por favor completa tus preferencias de descubrimiento",
+    "cartEmpty": "Tu carrito está vacío"
+  }
+} 

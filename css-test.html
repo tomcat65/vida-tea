@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Test - Vida-Tea</title>
+    
+    <!-- Same CSS as main page -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Vida-Tea</h1>
+                    <p class="tagline">Tea for Life</p>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Featured Teas Section (Same as main page) -->
+    <section class="featured-teas" id="teas">
+        <div class="container">
+            <h2 class="section-title">Our Premium Collection</h2>
+            <p class="section-subtitle">Carefully selected organic teas for your wellness journey</p>
+            
+            <div class="tea-grid" id="teaGrid">
+                <!-- Products will be loaded here -->
+                <div class="loading-state">
+                    <div class="loading-spinner">🔄</div>
+                    <p>Loading premium organic teas...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function log(message) {
+            console.log('[CSS Test]', message);
+        }
+        
+        function renderProducts(products) {
+            log(`Rendering ${products.length} products...`);
+            
+            const teaGrid = document.getElementById('teaGrid');
+            if (!teaGrid) {
+                log('❌ teaGrid element not found');
+                return;
+            }
+            
+            log('✅ teaGrid element found');
+            
+            // Use the same HTML structure as the main page
+            const html = products.map(product => `
+                <div class="tea-card" data-product-id="${product.id}">
+                    <div class="tea-image">
+                        ${product.image || '🍵'}
+                    </div>
+                    <h3 class="tea-title">${product.name}</h3>
+                    <p class="tea-description">${product.description}</p>
+                    <div class="product-meta">
+                        <span class="origin-tag">🌍 ${product.origin}</span>
+                        ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                        <span class="category-tag">${product.category} ${product.type || ''}</span>
+                    </div>
+                    <div class="wellness-tags">
+                        ${(product.benefits || ['Wellness']).map(benefit => 
+                            `<span class="wellness-tag">${benefit}</span>`
+                        ).join('')}
+                    </div>
+                    <div class="price-display">
+                        <span class="price-currency">$</span>
+                        <span class="price-amount">${product.price.toFixed(2)}</span>
+                        <span class="price-unit">/oz</span>
+                    </div>
+                    <div class="tea-actions">
+                        <div class="tea-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" value="1" min="1" max="10">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            log(`Generated HTML for ${products.length} products`);
+            teaGrid.innerHTML = html;
+            log('✅ Products rendered to DOM');
+        }
+        
+        async function loadAndRenderProducts() {
+            try {
+                log('Initializing Firebase...');
+                
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.firestore();
+                
+                log('Loading products from Firebase...');
+                const snapshot = await db.collection('products').get();
+                
+                if (snapshot.empty) {
+                    log('❌ No products found');
+                    return;
+                }
+                
+                const products = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    products.push({
+                        id: doc.id,
+                        name: data.name || 'Unknown Product',
+                        description: data.description || 'Premium organic tea',
+                        price: data.price || 25.00,
+                        origin: data.origin || 'Unknown',
+                        category: data.category || 'tea',
+                        type: data.type || '',
+                        organic: data.organic || true,
+                        benefits: data.benefits || ['Wellness', 'Balance'],
+                        image: data.image || '🍵'
+                    });
+                });
+                
+                log(`✅ Loaded ${products.length} products from Firebase`);
+                renderProducts(products);
+                
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Load products when page loads
+        window.addEventListener('load', loadAndRenderProducts);
+    </script>
+</body>
+</html> 

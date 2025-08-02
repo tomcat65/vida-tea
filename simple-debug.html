@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Debug - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Debug - Vida-Tea</h1>
+        
+        <div id="status" class="status info">Page loaded successfully</div>
+        
+        <div>
+            <button onclick="testBasic()">Test Basic</button>
+            <button onclick="testFirebase()">Test Firebase</button>
+            <button onclick="testProducts()">Test Products</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div id="log" class="log">Debug log will appear here...</div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Simple logging function
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = 'Debug log cleared...\n';
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+        }
+        
+        function testBasic() {
+            log('Testing basic functionality...');
+            log('Page loaded successfully');
+            log('Firebase SDK available: ' + (typeof firebase !== 'undefined'));
+            updateStatus('Basic test completed', 'success');
+        }
+        
+        function testFirebase() {
+            log('Testing Firebase connection...');
+            
+            try {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.firestore();
+                
+                log('✅ Firebase initialized');
+                
+                db.collection('products').get().then(snapshot => {
+                    log(`✅ Found ${snapshot.size} products in Firebase`);
+                    if (snapshot.size > 0) {
+                        const firstProduct = snapshot.docs[0].data();
+                        log('First product: ' + firstProduct.name);
+                    }
+                    updateStatus(`Found ${snapshot.size} products`, 'success');
+                }).catch(error => {
+                    log('❌ Firebase error: ' + error.message);
+                    updateStatus('Firebase error: ' + error.message, 'error');
+                });
+                
+            } catch (error) {
+                log('❌ Firebase initialization error: ' + error.message);
+                updateStatus('Firebase init error: ' + error.message, 'error');
+            }
+        }
+        
+        function testProducts() {
+            log('Testing main page scripts...');
+            
+            // Test if main scripts are loading
+            const scripts = [
+                'js/config-loader.js',
+                'js/firebase-config.js',
+                'js/products.js'
+            ];
+            
+            scripts.forEach(script => {
+                fetch(script)
+                    .then(response => {
+                        if (response.ok) {
+                            log(`✅ ${script} loaded successfully`);
+                        } else {
+                            log(`❌ ${script} failed to load (${response.status})`);
+                        }
+                    })
+                    .catch(error => {
+                        log(`❌ ${script} error: ${error.message}`);
+                    });
+            });
+        }
+        
+        // Auto-test on load
+        document.addEventListener('DOMContentLoaded', () => {
+            log('DOM loaded, running basic test...');
+            testBasic();
+        });
+        
+        // Monitor for errors
+        window.addEventListener('error', (e) => {
+            log('❌ JavaScript Error: ' + e.message);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Test - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Minimal Test - Vida-Tea</h1>
+    <div id="log" class="log">Loading...</div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+        
+        // Test basic functionality
+        log('Page loaded');
+        log('Testing basic JavaScript...');
+        
+        // Test if we can access DOM
+        const logEl = document.getElementById('log');
+        if (logEl) {
+            log('✅ DOM access working');
+        } else {
+            log('❌ DOM access failed');
+        }
+        
+        // Test if we can make network requests
+        fetch('js/config-loader.js')
+            .then(response => {
+                if (response.ok) {
+                    log('✅ Network requests working');
+                } else {
+                    log('❌ Network request failed: ' + response.status);
+                }
+            })
+            .catch(error => {
+                log('❌ Network error: ' + error.message);
+            });
+        
+        log('Minimal test completed');
+    </script>
+</body>
+</html> 

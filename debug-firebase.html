@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Debug - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Firebase Debug - Vida-Tea</h1>
+        
+        <div id="status" class="status info">Initializing...</div>
+        
+        <div>
+            <button onclick="testConfigLoader()">Test Config Loader</button>
+            <button onclick="testFirebase()">Test Firebase</button>
+            <button onclick="testProducts()">Test Products</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+        }
+        
+        async function testConfigLoader() {
+            log('Testing Config Loader...');
+            
+            // Check if configLoader exists
+            if (window.configLoader) {
+                log('✅ Config loader found');
+                const config = window.configLoader.getFirebaseConfig();
+                log('Firebase config: ' + JSON.stringify(config, null, 2));
+            } else {
+                log('❌ Config loader not found');
+            }
+        }
+        
+        async function testFirebase() {
+            log('Testing Firebase initialization...');
+            
+            try {
+                // Check if Firebase is available
+                if (typeof firebase === 'undefined') {
+                    log('❌ Firebase SDK not loaded');
+                    return;
+                }
+                
+                log('✅ Firebase SDK loaded');
+                
+                // Check if configLoader is available
+                if (!window.configLoader) {
+                    log('❌ Config loader not available');
+                    return;
+                }
+                
+                log('✅ Config loader available');
+                
+                // Get Firebase config
+                const firebaseConfig = window.configLoader.getFirebaseConfig();
+                log('Firebase config loaded');
+                
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+                log('✅ Firebase initialized');
+                
+                // Test Firestore
+                const db = firebase.firestore();
+                log('✅ Firestore initialized');
+                
+                // Test connection
+                const testDoc = await db.collection('test').doc('connection').get();
+                log('✅ Firestore connection successful');
+                
+                updateStatus('✅ Firebase working correctly', 'success');
+                
+            } catch (error) {
+                log('❌ Firebase error: ' + error.message);
+                updateStatus('❌ Firebase error: ' + error.message, 'error');
+            }
+        }
+        
+        async function testProducts() {
+            log('Testing products loading...');
+            
+            try {
+                if (!window.firebaseDB) {
+                    log('❌ Firebase DB not available');
+                    return;
+                }
+                
+                log('✅ Firebase DB available');
+                
+                const productsSnapshot = await window.firebaseDB.collection('products').get();
+                log(`📊 Found ${productsSnapshot.size} products`);
+                
+                if (productsSnapshot.size > 0) {
+                    const firstProduct = productsSnapshot.docs[0].data();
+                    log('First product: ' + JSON.stringify(firstProduct, null, 2));
+                }
+                
+                updateStatus(`✅ Found ${productsSnapshot.size} products`, 'success');
+                
+            } catch (error) {
+                log('❌ Products error: ' + error.message);
+                updateStatus('❌ Products error: ' + error.message, 'error');
+            }
+        }
+        
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            log('Page loaded, starting tests...');
+            setTimeout(() => {
+                testConfigLoader();
+                setTimeout(() => {
+                    testFirebase();
+                }, 1000);
+            }, 500);
+        });
+    </script>
+</body>
+</html> 

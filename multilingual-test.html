@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Test - Vida-Tea</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cultural-i18n.css">
+    
+    <!-- Multilingual System -->
+    <script src="js/vida-tea-i18n.js"></script>
+</head>
+<body>
+    <div class="container" style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <h1>🌍 Multilingual Test Page</h1>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher" id="languageSwitcher" style="margin-bottom: 2rem;">
+            <button class="language-btn" id="languageBtn">
+                <span class="language-flag" id="currentFlag">🇺🇸</span>
+                <span class="language-name" id="currentLanguage">English</span>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" data-lang="en">
+                    <span class="language-flag">🇺🇸</span>
+                    <span class="language-name">English</span>
+                </div>
+                <div class="language-option" data-lang="es">
+                    <span class="language-flag">🇪🇸</span>
+                    <span class="language-name">Español</span>
+                </div>
+                <div class="language-option" data-lang="ko">
+                    <span class="language-flag">🇰🇷</span>
+                    <span class="language-name">한국어</span>
+                </div>
+                <div class="language-option" data-lang="vi">
+                    <span class="language-flag">🇻🇳</span>
+                    <span class="language-name">Tiếng Việt</span>
+                </div>
+                <div class="language-option" data-lang="zh">
+                    <span class="language-flag">🇨🇳</span>
+                    <span class="language-name">中文</span>
+                </div>
+                <div class="language-option" data-lang="hi">
+                    <span class="language-flag">🇮🇳</span>
+                    <span class="language-name">हिन्दी</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Content -->
+        <div class="test-content">
+            <h2 data-i18n="hero.title">Tea for Life</h2>
+            <p data-i18n="hero.subtitle">Premium organic wellness teas for everyone, everywhere. Custom gift arrangements and wellness blends for all occasions.</p>
+            
+            <h3>Navigation Test</h3>
+            <ul>
+                <li><a href="#" data-i18n="navigation.home">Home</a></li>
+                <li><a href="#" data-i18n="navigation.teas">Our Teas</a></li>
+                <li><a href="#" data-i18n="navigation.discovery">Tea Discovery</a></li>
+                <li><a href="#" data-i18n="navigation.customArrangements">Custom Arrangements</a></li>
+            </ul>
+            
+            <h3>Buttons Test</h3>
+            <button data-i18n="buttons.explore">Explore All Teas</button>
+            <button data-i18n="buttons.customArrangements">Custom Arrangements</button>
+            <button data-i18n="buttons.discovery">Start Your Tea Discovery</button>
+        </div>
+        
+        <div style="margin-top: 2rem; padding: 1rem; background: #f0f0f0; border-radius: 8px;">
+            <h4>Debug Info:</h4>
+            <p>Current Language: <span id="debugLang">Loading...</span></p>
+            <p>Translation Status: <span id="debugStatus">Loading...</span></p>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize multilingual system
+        let i18n;
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize VidaTeaI18n
+            i18n = new VidaTeaI18n();
+            
+            // Wait for i18n to be ready
+            await new Promise(resolve => {
+                const checkReady = () => {
+                    if (i18n && i18n.currentLanguage) {
+                        resolve();
+                    } else {
+                        setTimeout(checkReady, 100);
+                    }
+                };
+                checkReady();
+            });
+            
+            // Initialize language switcher
+            initializeLanguageSwitcher();
+            
+            // Update debug info
+            updateDebugInfo();
+            
+            console.log('Multilingual test initialized with language:', i18n.currentLanguage);
+        });
+        
+        function initializeLanguageSwitcher() {
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            // Toggle dropdown
+            languageBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('show');
+            });
+            
+            // Handle language selection
+            languageDropdown.addEventListener('click', (e) => {
+                const option = e.target.closest('.language-option');
+                if (option) {
+                    const langCode = option.dataset.lang;
+                    switchLanguage(langCode);
+                    languageDropdown.classList.remove('show');
+                }
+            });
+            
+            // Update current language display
+            updateLanguageDisplay();
+        }
+        
+        function updateLanguageDisplay() {
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLanguage = document.getElementById('currentLanguage');
+            const config = i18n.getLanguageConfig(i18n.currentLanguage);
+            
+            if (currentFlag && currentLanguage) {
+                const flagMap = {
+                    'en': '🇺🇸',
+                    'es': '🇪🇸',
+                    'ko': '🇰🇷',
+                    'vi': '🇻🇳',
+                    'zh': '🇨🇳',
+                    'hi': '🇮🇳'
+                };
+                
+                currentFlag.textContent = flagMap[i18n.currentLanguage] || '🇺🇸';
+                currentLanguage.textContent = config.name;
+            }
+        }
+        
+        function switchLanguage(langCode) {
+            if (i18n) {
+                i18n.switchLanguage(langCode).then(() => {
+                    updateLanguageDisplay();
+                    updateDebugInfo();
+                    console.log('Language switched to:', langCode);
+                });
+            }
+        }
+        
+        function updateDebugInfo() {
+            const debugLang = document.getElementById('debugLang');
+            const debugStatus = document.getElementById('debugStatus');
+            
+            if (debugLang) {
+                debugLang.textContent = i18n.currentLanguage;
+            }
+            
+            if (debugStatus) {
+                debugStatus.textContent = 'Active - ' + i18n.getLanguageConfig(i18n.currentLanguage).name;
+            }
+        }
+    </script>
+</body>
+</html> 

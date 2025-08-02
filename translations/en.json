@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Vida-Tea Wellness - Tea for Life | Universal Wellness Teas",
+    "description": "Premium organic wellness teas for everyone. Custom tea gift arrangements, wellness blends, and tea for life. Founded by Erika & Mercedes."
+  },
+  "navigation": {
+    "home": "Home",
+    "teas": "Our Teas",
+    "discovery": "Tea Discovery",
+    "customArrangements": "Custom Arrangements",
+    "wellness": "Wellness",
+    "about": "About",
+    "signIn": "Sign In",
+    "cart": "Cart"
+  },
+  "hero": {
+    "title": "Tea for Life",
+    "subtitle": "Premium organic wellness teas for everyone, everywhere. Custom gift arrangements and wellness blends for all occasions.",
+    "startDiscovery": "Start Your Tea Discovery",
+    "exploreAll": "Explore All Teas",
+    "customArrangements": "Custom Arrangements"
+  },
+  "discovery": {
+    "banner": {
+      "title": "Overwhelmed by our tea collection?",
+      "subtitle": "Let our intelligent discovery system guide you to the perfect tea for your wellness journey",
+      "startJourney": "Start Your Personalized Discovery Journey"
+    },
+    "welcome": {
+      "title": "Welcome to Your Tea Discovery Journey",
+      "subtitle": "Let us guide you to the perfect tea for your wellness and cultural preferences",
+      "wellnessPath": "Wellness Journey",
+      "wellnessDescription": "Discover teas based on how you're feeling today",
+      "culturalPath": "Cultural Journey",
+      "culturalDescription": "Explore teas from different cultural traditions",
+      "surprisePath": "Surprise Me",
+      "surpriseDescription": "Let us curate a unique combination for you"
+    },
+    "wellness": {
+      "title": "How are you feeling today?",
+      "balanced": "Balanced",
+      "balancedDesc": "Seeking harmony and focus",
+      "relaxed": "Relaxed",
+      "relaxedDesc": "Looking for calm and peace",
+      "energized": "Energized",
+      "energizedDesc": "Need energy and vitality",
+      "immune": "Immune Support",
+      "immuneDesc": "Strengthening wellness",
+      "sleep": "Better Sleep",
+      "sleepDesc": "Restful and peaceful"
+    },
+    "cultural": {
+      "title": "Which culture speaks to you today?",
+      "indian": "Indian Tradition",
+      "indianDesc": "Rich masala chai and aromatic spices",
+      "chinese": "Chinese Tradition",
+      "chineseDesc": "Ancient wisdom and delicate green teas",
+      "english": "English Tradition",
+      "englishDesc": "Classic black teas and afternoon rituals",
+      "japanese": "Japanese Tradition",
+      "japaneseDesc": "Zen philosophy and ceremonial matcha",
+      "middleEastern": "Middle Eastern",
+      "middleEasternDesc": "Aromatic mint and hospitality",
+      "latinAmerican": "Latin American",
+      "latinAmericanDesc": "Vibrant mate and herbal traditions",
+      "european": "European",
+      "europeanDesc": "Herbal wisdom and chamomile",
+      "worldClass": "World Class",
+      "worldClassDesc": "Premium artisan selections"
+    },
+    "preferences": {
+      "title": "Tell us about your preferences",
+      "temperature": {
+        "label": "Preferred temperature",
+        "hot": "Hot",
+        "cold": "Cold",
+        "both": "Both"
+      },
+      "caffeine": {
+        "label": "Caffeine preference",
+        "caffeinated": "Caffeinated",
+        "decaf": "Decaffeinated",
+        "low": "Low caffeine"
+      },
+      "flavor": {
+        "label": "Flavor preference",
+        "sweet": "Sweet",
+        "spicy": "Spicy",
+        "herbal": "Herbal",
+        "fruity": "Fruity",
+        "earthy": "Earthy",
+        "floral": "Floral"
+      },
+      "time": {
+        "label": "Best time to enjoy",
+        "morning": "Morning",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "anytime": "Anytime"
+      }
+    },
+    "recommendations": {
+      "title": "Your Personalized Recommendations",
+      "subtitle": "Based on your discovery journey",
+      "continueShopping": "Continue Shopping",
+      "startNewDiscovery": "Start New Discovery"
+    }
+  },
+  "products": {
+    "title": "Our Premium Collection",
+    "subtitle": "Carefully selected organic teas for your wellness journey",
+    "addToCart": "Add to Cart",
+    "quantity": "Quantity",
+    "price": "Price",
+    "origin": "Origin",
+    "benefits": "Benefits",
+    "organic": "Organic",
+    "premium": "Premium"
+  },
+  "cart": {
+    "title": "Your Tea Cart",
+    "empty": "Your cart is empty",
+    "emptySubtitle": "Add some premium teas to get started!",
+    "continueShopping": "Continue Shopping",
+    "total": "Total",
+    "clearCart": "Clear Cart",
+    "proceedToCheckout": "Proceed to Checkout",
+    "recommendations": "Based on your discovery preferences:",
+    "addToCart": "Add to Cart"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shippingInfo": "Shipping Information",
+    "orderSummary": "Order Summary",
+    "paymentMethods": "Payment Methods",
+    "placeOrder": "Place Order",
+    "continueShopping": "Continue Shopping",
+    "discoveryBanner": {
+      "title": "Need help finding the perfect tea?",
+      "subtitle": "Our discovery system can guide you to teas that match your preferences and wellness goals",
+      "startDiscovery": "Start Discovery Journey"
+    }
+  },
+  "customArrangements": {
+    "title": "Custom Tea Gift Arrangements",
+    "subtitle": "Handcrafted by Erika & Mercedes for your special occasions",
+    "weddings": "Weddings",
+    "weddingsDesc": "Elegant tea arrangements for wedding favors and bridal showers",
+    "barMitzvahs": "Bar Mitzvahs",
+    "barMitzvahsDesc": "Traditional and modern tea blends for celebrations",
+    "corporateEvents": "Corporate Events",
+    "corporateEventsDesc": "Professional tea arrangements for business gifts and events",
+    "birthdays": "Birthdays",
+    "birthdaysDesc": "Personalized tea arrangements for special celebrations",
+    "features": {
+      "glassContainers": "Glass Containers",
+      "glassContainersDesc": "Beautiful glass jars and flasks from quality suppliers",
+      "handcrafted": "Handcrafted",
+      "handcraftedDesc": "Each arrangement personally created by Erika & Mercedes",
+      "bulkDiscounts": "Bulk Discounts",
+      "bulkDiscountsDesc": "Special pricing for large orders and events"
+    },
+    "startCustomOrder": "Start Custom Order",
+    "contactUs": "Contact us for personalized arrangements"
+  },
+  "wellness": {
+    "title": "Wellness Through Tea",
+    "subtitle": "Discover the healing properties of premium organic teas",
+    "balance": "Balance",
+    "calm": "Calm",
+    "energy": "Energy",
+    "immunity": "Immunity",
+    "sleep": "Sleep",
+    "focus": "Focus"
+  },
+  "about": {
+    "title": "About Vida-Tea",
+    "subtitle": "Founded by Erika & Mercedes",
+    "story": "Our story begins with a passion for wellness and cultural tea traditions. We believe that tea is more than just a beverage - it's a journey of discovery, wellness, and cultural connection.",
+    "mission": "Our mission is to bring premium organic teas to everyone, everywhere, while honoring the rich cultural traditions that make each tea unique.",
+    "values": "We value authenticity, wellness, cultural respect, and community connection."
+  },
+  "footer": {
+    "tagline": "Tea for Life",
+    "foundedBy": "Founded by Erika & Mercedes",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "accessibility": {
+    "languageChanged": "Language changed to {language}",
+    "discoveryStarted": "Discovery journey started",
+    "productAdded": "{product} added to cart",
+    "cartUpdated": "Cart updated"
+  },
+  "errors": {
+    "languageLoadFailed": "Failed to load language",
+    "discoveryIncomplete": "Please complete your discovery preferences",
+    "cartEmpty": "Your cart is empty"
+  }
+} 

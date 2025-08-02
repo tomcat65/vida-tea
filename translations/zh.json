@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Vida-Tea 养生 - 生命之茶 | 全球养生茶",
+    "description": "为所有人提供优质有机养生茶。定制茶礼套装、养生茶饮和生命之茶。由 Erika & Mercedes 创立。"
+  },
+  "navigation": {
+    "home": "首页",
+    "teas": "我们的茶",
+    "discovery": "茶品发现",
+    "customArrangements": "定制套装",
+    "wellness": "养生",
+    "about": "关于我们",
+    "signIn": "登录",
+    "cart": "购物车"
+  },
+  "hero": {
+    "title": "生命之茶",
+    "subtitle": "为所有人、所有地方提供优质有机养生茶。为所有场合提供定制礼品套装和养生茶饮。",
+    "startDiscovery": "开始您的茶品发现",
+    "exploreAll": "探索所有茶品",
+    "customArrangements": "定制套装"
+  },
+  "discovery": {
+    "banner": {
+      "title": "被我们的茶品系列所震撼？",
+      "subtitle": "让我们的智能发现系统引导您找到养生之旅的完美茶品",
+      "startJourney": "开始个性化发现之旅"
+    },
+    "welcome": {
+      "title": "欢迎来到您的茶品发现之旅",
+      "subtitle": "让我们引导您找到适合养生和文化偏好的完美茶品",
+      "wellnessPath": "养生之旅",
+      "wellnessDescription": "根据今日感受发现茶品",
+      "culturalPath": "文化之旅",
+      "culturalDescription": "探索不同文化传统的茶品",
+      "surprisePath": "给我惊喜",
+      "surpriseDescription": "让我们为您创造独特的组合"
+    },
+    "wellness": {
+      "title": "今天您感觉如何？",
+      "balanced": "平衡",
+      "balancedDesc": "寻求和谐与专注",
+      "relaxed": "放松",
+      "relaxedDesc": "寻找平静与安宁",
+      "energized": "充满活力",
+      "energizedDesc": "需要能量与活力",
+      "immune": "免疫支持",
+      "immuneDesc": "增强养生",
+      "sleep": "更好睡眠",
+      "sleepDesc": "宁静平和"
+    },
+    "cultural": {
+      "title": "今天哪种文化与您对话？",
+      "indian": "印度传统",
+      "indianDesc": "丰富的马萨拉茶和芳香香料",
+      "chinese": "中国传统",
+      "chineseDesc": "古代智慧与精致绿茶",
+      "english": "英国传统",
+      "englishDesc": "经典红茶与下午仪式",
+      "japanese": "日本传统",
+      "japaneseDesc": "禅宗哲学与仪式抹茶",
+      "middleEastern": "中东",
+      "middleEasternDesc": "芳香薄荷与好客",
+      "latinAmerican": "拉丁美洲",
+      "latinAmericanDesc": "活力马黛茶与草本传统",
+      "european": "欧洲",
+      "europeanDesc": "草本智慧与洋甘菊",
+      "worldClass": "世界级",
+      "worldClassDesc": "优质手工选择"
+    },
+    "preferences": {
+      "title": "告诉我们您的偏好",
+      "temperature": {
+        "label": "偏好温度",
+        "hot": "热",
+        "cold": "冷",
+        "both": "两者"
+      },
+      "caffeine": {
+        "label": "咖啡因偏好",
+        "caffeinated": "含咖啡因",
+        "decaf": "无咖啡因",
+        "low": "低咖啡因"
+      },
+      "flavor": {
+        "label": "口味偏好",
+        "sweet": "甜",
+        "spicy": "辣",
+        "herbal": "草本",
+        "fruity": "果味",
+        "earthy": "泥土",
+        "floral": "花香"
+      },
+      "time": {
+        "label": "最佳享用时间",
+        "morning": "早晨",
+        "afternoon": "下午",
+        "evening": "晚上",
+        "anytime": "随时"
+      }
+    },
+    "recommendations": {
+      "title": "您的个性化推荐",
+      "subtitle": "基于发现之旅",
+      "continueShopping": "继续购物",
+      "startNewDiscovery": "开始新发现"
+    }
+  },
+  "products": {
+    "title": "我们的精品系列",
+    "subtitle": "为养生之旅精心挑选的有机茶品",
+    "addToCart": "加入购物车",
+    "quantity": "数量",
+    "price": "价格",
+    "origin": "产地",
+    "benefits": "功效",
+    "organic": "有机",
+    "premium": "精品"
+  },
+  "cart": {
+    "title": "您的茶品购物车",
+    "empty": "您的购物车为空",
+    "emptySubtitle": "添加一些精品茶品开始吧！",
+    "continueShopping": "继续购物",
+    "total": "总计",
+    "clearCart": "清空购物车",
+    "proceedToCheckout": "前往结账",
+    "recommendations": "基于发现偏好：",
+    "addToCart": "加入购物车"
+  },
+  "checkout": {
+    "title": "结账",
+    "shippingInfo": "配送信息",
+    "orderSummary": "订单摘要",
+    "paymentMethods": "支付方式",
+    "placeOrder": "下单",
+    "continueShopping": "继续购物",
+    "discoveryBanner": {
+      "title": "需要帮助找到完美茶品？",
+      "subtitle": "我们的发现系统可以引导您找到符合偏好和养生目标的茶品",
+      "startDiscovery": "开始发现之旅"
+    }
+  },
+  "customArrangements": {
+    "title": "定制茶礼套装",
+    "subtitle": "由 Erika & Mercedes 为您的特殊场合手工制作",
+    "weddings": "婚礼",
+    "weddingsDesc": "婚礼回礼和新娘派对的优雅茶品套装",
+    "barMitzvahs": "成人礼",
+    "barMitzvahsDesc": "庆祝活动的传统与现代茶品混合",
+    "corporateEvents": "企业活动",
+    "corporateEventsDesc": "商务礼品和活动的专业茶品套装",
+    "birthdays": "生日",
+    "birthdaysDesc": "特殊庆祝活动的个性化茶品套装",
+    "features": {
+      "glassContainers": "玻璃容器",
+      "glassContainersDesc": "来自优质供应商的美丽玻璃瓶和烧瓶",
+      "handcrafted": "手工制作",
+      "handcraftedDesc": "每套由 Erika & Mercedes 亲自制作",
+      "bulkDiscounts": "批量折扣",
+      "bulkDiscountsDesc": "大订单和活动的特别价格"
+    },
+    "startCustomOrder": "开始定制订单",
+    "contactUs": "联系我们获取个性化套装"
+  },
+  "wellness": {
+    "title": "通过茶品养生",
+    "subtitle": "发现优质有机茶品的治愈特性",
+    "balance": "平衡",
+    "calm": "平静",
+    "energy": "能量",
+    "immunity": "免疫",
+    "sleep": "睡眠",
+    "focus": "专注"
+  },
+  "about": {
+    "title": "关于 Vida-Tea",
+    "subtitle": "由 Erika & Mercedes 创立",
+    "story": "我们的故事始于对养生和文化茶传统的热情。我们相信茶不仅仅是饮品 - 它是发现、养生和文化连接的旅程。",
+    "mission": "我们的使命是为所有人、所有地方提供优质有机茶品，同时尊重使每种茶品独特的丰富文化传统。",
+    "values": "我们重视真实性、养生、文化尊重和社区连接。"
+  },
+  "footer": {
+    "tagline": "生命之茶",
+    "foundedBy": "由 Erika & Mercedes 创立",
+    "contact": "联系我们",
+    "privacy": "隐私政策",
+    "terms": "服务条款"
+  },
+  "accessibility": {
+    "languageChanged": "语言已更改为{language}",
+    "discoveryStarted": "发现之旅已开始",
+    "productAdded": "{product}已添加到购物车",
+    "cartUpdated": "购物车已更新"
+  },
+  "errors": {
+    "languageLoadFailed": "加载语言失败",
+    "discoveryIncomplete": "请完成发现偏好",
+    "cartEmpty": "您的购物车为空"
+  }
+} 

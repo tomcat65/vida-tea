@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+        .product-emoji { font-size: 2em; text-align: center; }
+        .product-name { font-weight: bold; margin: 10px 0; }
+        .product-price { color: #28a745; font-weight: bold; }
+        .product-origin { color: #666; font-size: 0.9em; }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Firebase Connection Test - Vida-Tea</h1>
+        
+        <div id="status" class="status info">Initializing Firebase connection...</div>
+        
+        <div>
+            <button onclick="testConnection()">Test Firebase Connection</button>
+            <button onclick="loadProducts()">Load Products from Firebase</button>
+            <button onclick="checkCollections()">Check All Collections</button>
+        </div>
+        
+        <div id="results"></div>
+        <div id="products" class="product-grid"></div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+            authDomain: "vida-tea.firebaseapp.com",
+            projectId: "vida-tea",
+            storageBucket: "vida-tea.firebasestorage.app",
+            messagingSenderId: "669969532716",
+            appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+            measurementId: "G-SS8PB0TT8D"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        function updateStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+        }
+        
+        async function testConnection() {
+            try {
+                updateStatus('Testing Firebase connection...', 'info');
+                
+                // Test basic connection
+                const testDoc = await db.collection('test').doc('connection').get();
+                
+                updateStatus('✅ Firebase connection successful!', 'success');
+                
+                document.getElementById('results').innerHTML = `
+                    <h3>Connection Test Results:</h3>
+                    <ul>
+                        <li>Firebase SDK: Loaded</li>
+                        <li>Firestore: Connected</li>
+                        <li>Project ID: ${firebaseConfig.projectId}</li>
+                        <li>Timestamp: ${new Date().toLocaleString()}</li>
+                    </ul>
+                `;
+                
+            } catch (error) {
+                updateStatus('❌ Firebase connection failed: ' + error.message, 'error');
+                console.error('Connection error:', error);
+            }
+        }
+        
+        async function loadProducts() {
+            try {
+                updateStatus('Loading products from Firebase...', 'info');
+                
+                const productsSnapshot = await db.collection('products').get();
+                
+                if (productsSnapshot.empty) {
+                    updateStatus('⚠️ No products found in Firebase. Please run the import first.', 'warning');
+                    document.getElementById('results').innerHTML = `
+                        <h3>Products Status:</h3>
+                        <p>No products found in Firebase. Please:</p>
+                        <ol>
+                            <li>Open <a href="http://localhost:8081/import-catalog.html" target="_blank">Import Page</a></li>
+                            <li>Click "Start Import" to populate Firebase</li>
+                            <li>Return here and click "Load Products" again</li>
+                        </ol>
+                    `;
+                    return;
+                }
+                
+                const products = productsSnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        name: data.name || 'Unknown Product',
+                        category: data.category || 'tea',
+                        type: data.type || 'black',
+                        origin: data.origin || 'Unknown',
+                        organic: data.organic || true,
+                        supplier: data.supplier || 'QTrade',
+                        status: data.status || 'active'
+                    };
+                });
+                
+                updateStatus(`✅ Loaded ${products.length} products from Firebase`, 'success');
+                
+                // Display products
+                const productsContainer = document.getElementById('products');
+                productsContainer.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-emoji">${getProductEmoji(product.category, product.type)}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-origin">${product.origin}</div>
+                        <div class="product-price">$${calculatePrice(product).toFixed(2)}</div>
+                        <div>${product.category} ${product.type}</div>
+                        <div>${product.organic ? '🌱 Organic' : 'Conventional'}</div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('results').innerHTML = `
+                    <h3>Products Loaded:</h3>
+                    <ul>
+                        <li>Total Products: ${products.length}</li>
+                        <li>Tea Products: ${products.filter(p => p.category === 'tea').length}</li>
+                        <li>Herb Products: ${products.filter(p => p.category === 'herb').length}</li>
+                        <li>Organic Products: ${products.filter(p => p.organic).length}</li>
+                    </ul>
+                `;
+                
+            } catch (error) {
+                updateStatus('❌ Error loading products: ' + error.message, 'error');
+                console.error('Load error:', error);
+            }
+        }
+        
+        async function checkCollections() {
+            try {
+                updateStatus('Checking all Firebase collections...', 'info');
+                
+                const collections = ['products', 'certifications', 'settings', 'orders', 'users'];
+                const results = {};
+                
+                for (const collection of collections) {
+                    try {
+                        const snapshot = await db.collection(collection).get();
+                        results[collection] = snapshot.size;
+                    } catch (error) {
+                        results[collection] = 'Error: ' + error.message;
+                    }
+                }
+                
+                updateStatus('✅ Collection check completed', 'success');
+                
+                document.getElementById('results').innerHTML = `
+                    <h3>Firebase Collections Status:</h3>
+                    <ul>
+                        <li>Products: ${results.products} documents</li>
+                        <li>Certifications: ${results.certifications} documents</li>
+                        <li>Settings: ${results.settings} documents</li>
+                        <li>Orders: ${results.orders} documents</li>
+                        <li>Users: ${results.users} documents</li>
+                    </ul>
+                `;
+                
+            } catch (error) {
+                updateStatus('❌ Error checking collections: ' + error.message, 'error');
+                console.error('Collection check error:', error);
+            }
+        }
+        
+        function getProductEmoji(category, type) {
+            const emojis = {
+                tea: {
+                    green: '🍃',
+                    black: '☕',
+                    white: '🌱',
+                    oolong: '🍵',
+                    herbal: '🌿',
+                    rooibos: '🌺'
+                },
+                herb: '🌿',
+                spice: '🌶️',
+                fruit: '🍊',
+                blend: '🌸'
+            };
+            
+            if (category === 'tea' && type) {
+                return emojis.tea[type] || '🍵';
+            }
+            
+            return emojis[category] || '🍵';
+        }
+        
+        function calculatePrice(product) {
+            let basePrice = 20.00;
+            
+            if (product.category === 'tea') {
+                switch (product.type) {
+                    case 'green': basePrice = 22.00; break;
+                    case 'black': basePrice = 24.00; break;
+                    case 'white': basePrice = 26.00; break;
+                    case 'oolong': basePrice = 25.00; break;
+                    case 'herbal': basePrice = 18.50; break;
+                    case 'rooibos': basePrice = 19.50; break;
+                }
+            } else if (product.category === 'herb') {
+                basePrice = 16.00;
+            } else if (product.category === 'spice') {
+                basePrice = 14.00;
+            }
+            
+            if (product.origin === 'Sri Lanka' || product.origin === 'India') {
+                basePrice += 2.00;
+            }
+            
+            return basePrice;
+        }
+        
+        // Auto-test connection on page load
+        window.addEventListener('load', () => {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html> 

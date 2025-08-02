@@ -3,11 +3,11 @@
 firebase-debug.log
 firebase-debug.*.log
 
-# Firebase config (contains sensitive data)
-js/firebase-config.js
-
 # Firebase documentation (contains deployment details)
 FIREBASE_SETUP.md
+
+# Documentation directory (contains sensitive setup info)
+docs/
 
 # Deployment scripts
 deploy.sh
@@ -19,6 +19,7 @@ pglite-debug.log
 .env
 .env.local
 .env.production
+.env.example
 
 # IDE files
 .vscode/

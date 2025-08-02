@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Loading Test - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .tea-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .tea-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Loading Test - Vida-Tea</h1>
+        
+        <div id="status" class="status info">Initializing...</div>
+        
+        <div>
+            <button onclick="testConfigLoader()">Test Config Loader</button>
+            <button onclick="testFirebase()">Test Firebase</button>
+            <button onclick="testProductManager()">Test Product Manager</button>
+            <button onclick="testDirectFirebase()">Test Direct Firebase</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div id="log" class="log"></div>
+        
+        <h2>Products Grid (Same as main page)</h2>
+        <div class="tea-grid" id="teaGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Scripts (Same order as main page) -->
+    <script src="js/config-loader.js"></script>
+    <script src="js/dev-setup.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/products-database.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        function updateStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status ' + type;
+        }
+        
+        function testConfigLoader() {
+            log('Testing Config Loader...');
+            
+            if (window.configLoader) {
+                log('✅ Config loader found');
+                log('Ready status: ' + window.configLoader.ready);
+                const config = window.configLoader.getFirebaseConfig();
+                log('Firebase config: ' + JSON.stringify(config, null, 2));
+            } else {
+                log('❌ Config loader not found');
+            }
+        }
+        
+        function testFirebase() {
+            log('Testing Firebase initialization...');
+            
+            if (window.firebaseDB) {
+                log('✅ Firebase DB available');
+                log('Firebase DB type: ' + typeof window.firebaseDB);
+            } else {
+                log('❌ Firebase DB not available');
+            }
+            
+            if (window.firebaseAuth) {
+                log('✅ Firebase Auth available');
+            } else {
+                log('❌ Firebase Auth not available');
+            }
+        }
+        
+        function testProductManager() {
+            log('Testing Product Manager...');
+            
+            if (window.productManager) {
+                log('✅ Product Manager found');
+                log('Products count: ' + window.productManager.products.length);
+                log('Firebase DB: ' + !!window.productManager.db);
+                log('Products array: ' + JSON.stringify(window.productManager.products.slice(0, 2)));
+            } else {
+                log('❌ Product Manager not found');
+            }
+        }
+        
+        function testDirectFirebase() {
+            log('Testing direct Firebase connection...');
+            
+            try {
+                // Use the same config as the test page
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                // Initialize Firebase directly
+                firebase.initializeApp(firebaseConfig);
+                const db = firebase.firestore();
+                
+                log('✅ Firebase initialized directly');
+                
+                // Test connection
+                db.collection('products').get().then(snapshot => {
+                    log(`✅ Direct Firebase test: Found ${snapshot.size} products`);
+                    if (snapshot.size > 0) {
+                        const firstProduct = snapshot.docs[0].data();
+                        log('First product: ' + JSON.stringify(firstProduct, null, 2));
+                    }
+                }).catch(error => {
+                    log('❌ Direct Firebase error: ' + error.message);
+                });
+                
+            } catch (error) {
+                log('❌ Direct Firebase initialization error: ' + error.message);
+            }
+        }
+        
+        // Monitor for errors
+        window.addEventListener('error', (e) => {
+            log('❌ JavaScript Error: ' + e.message);
+        });
+        
+        // Monitor console
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            log('LOG: ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            log('ERROR: ' + args.join(' '));
+            originalError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            log('WARN: ' + args.join(' '));
+            originalWarn.apply(console, args);
+        };
+        
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            log('Page loaded, starting tests...');
+            setTimeout(() => {
+                testConfigLoader();
+                setTimeout(() => {
+                    testFirebase();
+                    setTimeout(() => {
+                        testProductManager();
+                        setTimeout(() => {
+                            testDirectFirebase();
+                        }, 2000);
+                    }, 2000);
+                }, 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

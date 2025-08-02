@@ -2,10 +2,30 @@
 
 class ProductManager {
     constructor() {
-        this.db = window.firebaseDB;
+        this.db = null;
         this.products = [];
         this.cart = this.loadCart();
         this.currentFilter = 'all';
+        
+        this.waitForFirebase();
+    }
+    
+    async waitForFirebase() {
+        // Wait for Firebase to be initialized
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+        
+        while (!window.firebaseDB && attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        this.db = window.firebaseDB;
+        console.log('Firebase ready:', !!this.db);
+        
+        if (!this.db) {
+            console.warn('Firebase not available after 5 seconds, proceeding with fallback');
+        }
         
         this.init();
     }
@@ -24,111 +44,262 @@ class ProductManager {
         const clearCart = document.getElementById('clearCart');
         const checkoutBtn = document.getElementById('checkoutBtn');
         
-        cartBtn.addEventListener('click', () => {
-            this.showCartModal();
-        });
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                this.showCartModal();
+            });
+        }
         
-        closeCart.addEventListener('click', () => {
-            this.hideCartModal();
-        });
+        if (closeCart) {
+            closeCart.addEventListener('click', () => {
+                this.hideCartModal();
+            });
+        }
         
-        clearCart.addEventListener('click', () => {
-            this.clearCart();
-        });
+        if (clearCart) {
+            clearCart.addEventListener('click', () => {
+                this.clearCart();
+            });
+        }
         
-        checkoutBtn.addEventListener('click', () => {
-            this.checkout();
-        });
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                this.checkout();
+            });
+        }
         
         // Modal backdrop click
-        cartModal.addEventListener('click', (e) => {
-            if (e.target === cartModal) {
-                this.hideCartModal();
-            }
-        });
+        if (cartModal) {
+            cartModal.addEventListener('click', (e) => {
+                if (e.target === cartModal) {
+                    this.hideCartModal();
+                }
+            });
+        }
     }
     
     async loadProducts() {
         try {
-            // For demo purposes, using static data instead of Firebase
-            // In production, this would fetch from Firestore
-            this.products = [
-                {
-                    id: '1',
-                    name: 'Organic Green Tea',
-                    description: 'Premium organic green tea with antioxidant properties',
-                    price: 22.00,
-                    category: 'green',
-                    image: '🍃',
-                    benefits: ['Antioxidants', 'Energy', 'Focus'],
-                    inStock: true
-                },
-                {
-                    id: '2',
-                    name: 'Chamomile Calm',
-                    description: 'Soothing chamomile blend for stress relief and relaxation',
-                    price: 18.50,
-                    category: 'herbal',
-                    image: '🌼',
-                    benefits: ['Stress Relief', 'Sleep', 'Calm'],
-                    inStock: true
-                },
-                {
-                    id: '3',
-                    name: 'Peppermint Digestive',
-                    description: 'Refreshing peppermint tea for digestive health',
-                    price: 20.00,
-                    category: 'herbal',
-                    image: '🌿',
-                    benefits: ['Digestive Health', 'Fresh Breath', 'Energy'],
-                    inStock: true
-                },
-                {
-                    id: '4',
-                    name: 'Earl Grey Supreme',
-                    description: 'Classic Earl Grey with bergamot for a sophisticated taste',
-                    price: 24.00,
-                    category: 'black',
-                    image: '☕',
-                    benefits: ['Focus', 'Energy', 'Antioxidants'],
-                    inStock: true
-                },
-                {
-                    id: '5',
-                    name: 'Lavender Dream',
-                    description: 'Lavender-infused herbal tea for peaceful sleep',
-                    price: 19.50,
-                    category: 'herbal',
-                    image: '💜',
-                    benefits: ['Sleep', 'Relaxation', 'Calm'],
-                    inStock: true
-                },
-                {
-                    id: '6',
-                    name: 'Ginger Immunity',
-                    description: 'Spicy ginger blend to boost immunity and energy',
-                    price: 21.00,
-                    category: 'herbal',
-                    image: '🫚',
-                    benefits: ['Immunity', 'Energy', 'Digestive Health'],
-                    inStock: true
-                }
-            ];
+            console.log('🔄 Loading products from Firebase...');
+            console.log('Firebase DB available:', !!this.db);
+            this.showLoadingState();
             
+            // Check if Firebase is available
+            if (!this.db) {
+                console.warn('⚠️ Firebase not available, using fallback data');
+                this.loadFallbackProducts();
+                return;
+            }
+            
+            // Additional check for Firebase services
+            if (!firebase || !firebase.firestore) {
+                console.warn('⚠️ Firebase SDK not available, using fallback data');
+                this.loadFallbackProducts();
+                return;
+            }
+            
+            // Fetch products from Firestore
+            console.log('🔍 Fetching products from Firestore...');
+            const productsSnapshot = await this.db.collection('products').get();
+            console.log('📊 Products snapshot:', productsSnapshot.size, 'documents');
+            
+            if (productsSnapshot.empty) {
+                console.log('📭 No products found in Firebase, using fallback data');
+                this.loadFallbackProducts();
+                return;
+            }
+            
+            // Convert Firestore data to product objects
+            this.products = productsSnapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: data.id || doc.id,
+                    name: data.name || 'Unknown Product',
+                    description: data.description || 'Premium organic tea',
+                    price: data.price || this.calculatePrice(data), // Use actual price from Firebase, fallback to calculation
+                    category: data.category || 'tea',
+                    type: data.type || 'black',
+                    origin: data.origin || 'Unknown',
+                    image: this.getProductEmoji(data.category, data.type),
+                    benefits: this.getProductBenefits(data.category, data.type),
+                    organic: data.organic || true,
+                    supplier: data.supplier || 'QTrade',
+                    inStock: data.status === 'active',
+                    code: data.code,
+                    createdAt: data.createdAt,
+                    updatedAt: data.updatedAt
+                };
+            });
+            
+            console.log(`✅ Loaded ${this.products.length} products from Firebase`);
+            this.hideLoadingState();
             this.renderProducts();
+            
         } catch (error) {
-            console.error('Error loading products:', error);
-            this.showToast('Error loading products', 'error');
+            console.error('❌ Error loading products from Firebase:', error);
+            console.log('🔄 Falling back to static data...');
+            this.loadFallbackProducts();
         }
     }
     
+    calculatePrice(product) {
+        // Calculate price based on product type and origin
+        let basePrice = 20.00;
+        
+        if (product.category === 'tea') {
+            switch (product.type) {
+                case 'green':
+                    basePrice = 22.00;
+                    break;
+                case 'black':
+                    basePrice = 24.00;
+                    break;
+                case 'white':
+                    basePrice = 26.00;
+                    break;
+                case 'oolong':
+                    basePrice = 25.00;
+                    break;
+                case 'herbal':
+                    basePrice = 18.50;
+                    break;
+                case 'rooibos':
+                    basePrice = 19.50;
+                    break;
+            }
+        } else if (product.category === 'herb') {
+            basePrice = 16.00;
+        } else if (product.category === 'spice') {
+            basePrice = 14.00;
+        }
+        
+        // Premium origin adjustment
+        if (product.origin === 'Sri Lanka' || product.origin === 'India') {
+            basePrice += 2.00;
+        }
+        
+        return basePrice;
+    }
+    
+    getProductEmoji(category, type) {
+        const emojis = {
+            tea: {
+                green: '🍃',
+                black: '☕',
+                white: '🌱',
+                oolong: '🍵',
+                herbal: '🌿',
+                rooibos: '🌺'
+            },
+            herb: '🌿',
+            spice: '🌶️',
+            fruit: '🍊',
+            blend: '🌸'
+        };
+        
+        if (category === 'tea' && type) {
+            return emojis.tea[type] || '🍵';
+        }
+        
+        return emojis[category] || '🍵';
+    }
+    
+    getProductBenefits(category, type) {
+        const benefits = {
+            tea: {
+                green: ['Antioxidants', 'Energy', 'Focus'],
+                black: ['Energy', 'Focus', 'Antioxidants'],
+                white: ['Antioxidants', 'Calm', 'Immunity'],
+                oolong: ['Weight Loss', 'Energy', 'Focus'],
+                herbal: ['Wellness', 'Calm', 'Immunity'],
+                rooibos: ['Calm', 'Sleep', 'Antioxidants']
+            },
+            herb: ['Wellness', 'Immunity', 'Calm'],
+            spice: ['Digestive Health', 'Energy', 'Immunity'],
+            fruit: ['Vitamin C', 'Immunity', 'Energy'],
+            blend: ['Wellness', 'Balance', 'Harmony']
+        };
+        
+        if (category === 'tea' && type) {
+            return benefits.tea[type] || ['Wellness', 'Balance'];
+        }
+        
+        return benefits[category] || ['Wellness', 'Balance'];
+    }
+    
+    loadFallbackProducts() {
+        // Fallback static data for when Firebase is not available
+        this.products = [
+            {
+                id: '1',
+                name: 'Organic Green Tea',
+                description: 'Premium organic green tea with antioxidant properties',
+                price: 22.00,
+                category: 'green',
+                image: '🍃',
+                benefits: ['Antioxidants', 'Energy', 'Focus'],
+                inStock: true
+            },
+            {
+                id: '2',
+                name: 'Chamomile Calm',
+                description: 'Soothing chamomile blend for stress relief and relaxation',
+                price: 18.50,
+                category: 'herbal',
+                image: '🌼',
+                benefits: ['Stress Relief', 'Sleep', 'Calm'],
+                inStock: true
+            },
+            {
+                id: '3',
+                name: 'Peppermint Digestive',
+                description: 'Refreshing peppermint tea for digestive health',
+                price: 20.00,
+                category: 'herbal',
+                image: '🌿',
+                benefits: ['Digestive Health', 'Fresh Breath', 'Energy'],
+                inStock: true
+            },
+            {
+                id: '4',
+                name: 'Earl Grey Supreme',
+                description: 'Classic Earl Grey with bergamot for a sophisticated taste',
+                price: 24.00,
+                category: 'black',
+                image: '☕',
+                benefits: ['Focus', 'Energy', 'Antioxidants'],
+                inStock: true
+            },
+            {
+                id: '5',
+                name: 'Lavender Dream',
+                description: 'Lavender-infused herbal tea for peaceful sleep',
+                price: 19.50,
+                category: 'herbal',
+                image: '💜',
+                benefits: ['Sleep', 'Calm', 'Stress Relief'],
+                inStock: true
+            }
+        ];
+        
+        console.log('✅ Loaded fallback products');
+        this.renderProducts();
+    }
+    
     renderProducts() {
+        console.log('🔄 renderProducts called');
         const teaGrid = document.getElementById('teaGrid');
-        if (!teaGrid) return;
+        if (!teaGrid) {
+            console.error('❌ teaGrid element not found');
+            return;
+        }
+        console.log('✅ teaGrid element found');
         
         const filteredProducts = this.currentFilter === 'all' 
             ? this.products 
             : this.products.filter(p => p.category === this.currentFilter);
+        
+        console.log(`📊 Rendering ${filteredProducts.length} products (filter: ${this.currentFilter})`);
         
         teaGrid.innerHTML = filteredProducts.map(product => `
             <div class="tea-card" data-product-id="${product.id}">
@@ -137,6 +308,11 @@ class ProductManager {
                 </div>
                 <h3 class="tea-title">${product.name}</h3>
                 <p class="tea-description">${product.description}</p>
+                <div class="product-meta">
+                    <span class="origin-tag">🌍 ${product.origin}</span>
+                    ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                    <span class="category-tag">${product.category} ${product.type}</span>
+                </div>
                 <div class="wellness-tags">
                     ${product.benefits.map(benefit => 
                         `<span class="wellness-tag">${benefit}</span>`
@@ -385,6 +561,11 @@ class ProductManager {
                 </div>
                 <h3 class="tea-title">${product.name}</h3>
                 <p class="tea-description">${product.description}</p>
+                <div class="product-meta">
+                    <span class="origin-tag">🌍 ${product.origin}</span>
+                    ${product.organic ? '<span class="organic-tag">🌱 Organic</span>' : ''}
+                    <span class="category-tag">${product.category} ${product.type}</span>
+                </div>
                 <div class="wellness-tags">
                     ${product.benefits.map(benefit => 
                         `<span class="wellness-tag">${benefit}</span>`
@@ -408,6 +589,23 @@ class ProductManager {
                 </div>
             </div>
         `).join('');
+    }
+    
+    // Loading state management
+    showLoadingState() {
+        const teaGrid = document.getElementById('teaGrid');
+        if (teaGrid) {
+            teaGrid.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner">🔄</div>
+                    <p>Loading premium organic teas...</p>
+                </div>
+            `;
+        }
+    }
+    
+    hideLoadingState() {
+        // Loading state is cleared when products are rendered
     }
 }
 

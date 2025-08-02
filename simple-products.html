@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Products - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .tea-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin: 20px 0; }
+        .tea-card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: white; }
+        .tea-title { font-size: 1.2rem; font-weight: bold; margin: 10px 0; }
+        .tea-description { color: #666; margin: 10px 0; }
+        .tea-price { font-size: 1.1rem; font-weight: bold; color: #2c5aa0; }
+        .loading { text-align: center; padding: 40px; font-size: 1.2rem; }
+        .error { color: red; padding: 20px; }
+        .success { color: green; padding: 20px; }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Products Test - Vida-Tea</h1>
+        <div id="status" class="loading">Loading products...</div>
+        <div id="products" class="tea-grid"></div>
+    </div>
+
+    <script>
+        function updateStatus(message, type = 'loading') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = type;
+        }
+        
+        function renderProduct(product) {
+            return `
+                <div class="tea-card">
+                    <div class="tea-title">${product.name}</div>
+                    <div class="tea-description">${product.description}</div>
+                    <div class="tea-price">$${product.price}</div>
+                    <div>Origin: ${product.origin}</div>
+                    <div>Category: ${product.category}</div>
+                </div>
+            `;
+        }
+        
+        async function loadProducts() {
+            try {
+                updateStatus('Initializing Firebase...', 'loading');
+                
+                // Initialize Firebase directly
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBh4BNjpxfY_dgt3FojKFMD7KEIisf1iWg",
+                    authDomain: "vida-tea.firebaseapp.com",
+                    projectId: "vida-tea",
+                    storageBucket: "vida-tea.firebasestorage.app",
+                    messagingSenderId: "669969532716",
+                    appId: "1:669969532716:web:02d938f0e13f73575f0e89",
+                    measurementId: "G-SS8PB0TT8D"
+                };
+                
+                firebase.initializeApp(firebaseConfig);
+                updateStatus('Firebase initialized, loading products...', 'loading');
+                
+                const db = firebase.firestore();
+                const snapshot = await db.collection('products').get();
+                
+                if (snapshot.empty) {
+                    updateStatus('No products found in database', 'error');
+                    return;
+                }
+                
+                const products = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    products.push({
+                        id: doc.id,
+                        name: data.name || 'Unknown Product',
+                        description: data.description || 'Premium organic tea',
+                        price: data.price || 25.00,
+                        origin: data.origin || 'Unknown',
+                        category: data.category || 'tea'
+                    });
+                });
+                
+                updateStatus(`Loaded ${products.length} products successfully!`, 'success');
+                
+                const productsEl = document.getElementById('products');
+                productsEl.innerHTML = products.map(renderProduct).join('');
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                updateStatus(`Error loading products: ${error.message}`, 'error');
+            }
+        }
+        
+        // Load products when page loads
+        window.addEventListener('load', loadProducts);
+    </script>
+</body>
+</html> 

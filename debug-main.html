@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Main - Vida-Tea</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .log { background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .tea-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .tea-card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; }
+    </style>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Debug Main Page - Vida-Tea</h1>
+        
+        <div id="log" class="log">Initializing...</div>
+        
+        <div class="tea-grid" id="teaGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Global logging function
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.innerHTML += `[${timestamp}] ${message}\n`;
+            console.log(message);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        // Monitor for errors
+        window.addEventListener('error', (e) => {
+            log('❌ JavaScript Error: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+        });
+        
+        // Monitor console
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            log('LOG: ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            log('ERROR: ' + args.join(' '));
+            originalError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            log('WARN: ' + args.join(' '));
+            originalWarn.apply(console, args);
+        };
+        
+        log('Page loaded, starting script loading...');
+    </script>
+
+    <!-- Scripts (Same order as main page) -->
+    <script src="js/config-loader.js"></script>
+    <script>
+        log('config-loader.js loaded');
+        if (window.configLoader) {
+            log('ConfigLoader available');
+        } else {
+            log('❌ ConfigLoader not available');
+        }
+    </script>
+    
+    <script src="js/dev-setup.js"></script>
+    <script>
+        log('dev-setup.js loaded');
+    </script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script>
+        log('firebase-config.js loaded');
+        if (window.firebaseDB) {
+            log('✅ Firebase DB available');
+        } else {
+            log('❌ Firebase DB not available');
+        }
+    </script>
+    
+    <script src="js/auth.js"></script>
+    <script>
+        log('auth.js loaded');
+    </script>
+    
+    <script src="js/products.js"></script>
+    <script>
+        log('products.js loaded');
+        if (window.productManager) {
+            log('✅ ProductManager available');
+        } else {
+            log('❌ ProductManager not available');
+        }
+    </script>
+    
+    <script src="js/products-database.js"></script>
+    <script>
+        log('products-database.js loaded');
+    </script>
+    
+    <script src="js/main.js"></script>
+    <script>
+        log('main.js loaded');
+        log('All scripts loaded, checking final state...');
+        
+        // Final check
+        setTimeout(() => {
+            log('=== FINAL STATE CHECK ===');
+            log('ConfigLoader: ' + (window.configLoader ? '✅' : '❌'));
+            log('Firebase DB: ' + (window.firebaseDB ? '✅' : '❌'));
+            log('ProductManager: ' + (window.productManager ? '✅' : '❌'));
+            log('Products loaded: ' + (window.productManager && window.productManager.products ? window.productManager.products.length : 'N/A'));
+        }, 2000);
+    </script>
+</body>
+</html> 

@@ -2,14 +2,41 @@
 
 class AuthManager {
     constructor() {
-        this.auth = window.firebaseAuth;
+        this.auth = null;
         this.currentUser = null;
         this.isSignUp = false;
+        
+        this.waitForFirebase();
+    }
+    
+    async waitForFirebase() {
+        // Wait for Firebase to be initialized
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+        
+        while (!window.firebaseAuth && attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        this.auth = window.firebaseAuth;
+        console.log('Firebase Auth ready:', !!this.auth);
+        
+        if (!this.auth) {
+            console.warn('Firebase Auth not available after 5 seconds');
+            return;
+        }
         
         this.init();
     }
     
     init() {
+        // Check if auth is available
+        if (!this.auth) {
+            console.warn('Auth not available, skipping initialization');
+            return;
+        }
+        
         // Auth state listener
         this.auth.onAuthStateChanged((user) => {
             this.currentUser = user;
